@@ -11,3 +11,13 @@ export const SWAGGER_OPTIONS = {
     info: { title: 'API' },
   },
 };
+
+export const sequelizeProductionOptions = {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+};

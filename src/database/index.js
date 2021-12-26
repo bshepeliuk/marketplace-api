@@ -1,25 +1,18 @@
 import Sequelize from 'sequelize';
+import { sequelizeProductionOptions } from '../options';
 import DATABASE_CONFIG from './config/database';
 // models
 import User from './models/User';
 
-let sequelize;
+const sequelizeInstance = {
+  development: () => new Sequelize(DATABASE_CONFIG.development),
+  test: () => new Sequelize(DATABASE_CONFIG.test),
+  production() {
+    return new Sequelize(process.env.DATABASE_URL, sequelizeProductionOptions);
+  },
+};
 
-if (process.env.NODE_ENV === 'development') {
-  sequelize = new Sequelize(DATABASE_CONFIG.development);
-} else if (process.env.NODE_ENV === 'test') {
-  sequelize = new Sequelize(DATABASE_CONFIG.test);
-} else if (process.env.NODE_ENV === 'production') {
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
-    },
-  });
-}
+const sequelize = sequelizeInstance[process.env.NODE_ENV]();
 
 const models = {
   User: User(sequelize, Sequelize.DataTypes),
