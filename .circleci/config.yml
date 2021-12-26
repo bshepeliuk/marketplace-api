@@ -1,0 +1,118 @@
+version: 2.1
+
+executors:
+  server_api:
+    working_directory: ~/app
+    docker:
+      - image: circleci/node:14.18.0
+        environment:
+          NODE_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: bshepeliuk
+      - image: circleci/postgres:10.19
+        environment:
+          POSTGRES_USER: bshepeliuk
+          POSTGRES_DB: test-db
+          POSTGRES_PASSWORD: bshepeliuk
+      - image: circleci/redis:4.0.9
+
+commands:
+  install_dependencies:
+    description: 'Install dependencies'
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+  waiting_for_db:
+    description: 'Waiting for PostgreSQL && Redis'
+    steps:
+      - run:
+          name: Waiting for PostgreSQL
+          working_directory: ~/app
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Waiting for Redis
+          working_directory: ~/app
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
+  run_migration:
+    description: 'Running Migrations'
+    steps:
+      - run:
+          name: Upgrade Database
+          working_directory: ~/app
+          command: npm run migrate
+  run_tests:
+    description: Running tests
+    steps:
+      - run:
+          name: Run tests
+          working_directory: ~/app
+          command: npm test
+  run_setup_heroku:
+    description: Installing Heroku CLI, Authentication to Heroku and Heroku Docker Registry
+    steps:
+      - run:
+          working_directory: ~/app
+          name: 'Install Heroku CLI'
+          command: bash ./scripts/install-heroku.sh
+      - run:
+          working_directory: ~/app
+          name: 'Authentication to Heroku'
+          command: bash ./scripts/setup-heroku.sh
+      - run:
+          working_directory: ~/app
+          name: Login into Heroku Docker Repository
+          command: |
+            docker login --username=$HEROKU_EMAIL --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+  run_deploy_to_heroku:
+    description: Deploy app to Heroku
+    steps:
+      - run:
+          name: Build and push Docker image to Heroku
+          working_directory: ~/app
+          command: |
+            heroku container:push web -a $HEROKU_APP_NAME
+            heroku container:release web -a $HEROKU_APP_NAME
+
+jobs:
+  build:
+    working_directory: ~/app
+    executor: server_api
+    steps:
+      - install_dependencies
+  test:
+    working_directory: ~/app
+    executor: server_api
+    steps:
+      - install_dependencies
+      - waiting_for_db
+      - run_migration
+      - run_tests
+  deploy:
+    working_directory: ~/app
+    executor: server_api
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run_setup_heroku
+      - run_deploy_to_heroku
+
+workflows:
+  version: 2.1
+  build_deploy:
+    jobs:
+      - build
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main # Only deploy when the commit is on the Main branch
