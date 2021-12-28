@@ -5,7 +5,12 @@ describe('check PostgreSQL setup', () => {
   let user = null;
 
   beforeAll(async () => {
-    user = await models.User.create({ email });
+    user = await models.User.create({
+      email,
+      fullName: 'John Wick',
+      role: 'BUYER',
+      password: '1234',
+    });
   });
 
   afterAll(async () => {
