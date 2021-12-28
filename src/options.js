@@ -1,6 +1,8 @@
 export const FASTIFY_OPTIONS = {
   logger: {
-    prettyPrint: true,
+    prettyPrint: {
+      translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
+    },
   },
 };
 
