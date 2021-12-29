@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development nodemon --exec babel-node src/server",
     "build": "babel ./src --out-dir ./dist",
     "clean": "rm -rf ./dist && mkdir dist",
-    "test": "NODE_ENV=test jest --verbose ./tests --force-exit --detectOpenHandles",
+    "test": "NODE_ENV=test jest --verbose ./tests --detectOpenHandles --forceExit",
     "migrate": "sequelize db:migrate"
   },
   "dependencies": {

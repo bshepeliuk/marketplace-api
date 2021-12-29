@@ -1,9 +1,13 @@
-export const FASTIFY_OPTIONS = {
-  logger: {
-    prettyPrint: {
-      translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
-    },
+import { isItTestMode } from './utils/checkEnvMode';
+
+const loggerOptions = {
+  prettyPrint: {
+    translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
   },
+};
+
+export const FASTIFY_OPTIONS = {
+  logger: isItTestMode() ? false : loggerOptions,
 };
 
 export const SWAGGER_OPTIONS = {

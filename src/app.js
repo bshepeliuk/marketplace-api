@@ -1,13 +1,31 @@
-const startServer = async (app) => {
-  const PORT = process.env.PORT || 3000;
-  const HOST = process.env.HOST || '0.0.0.0';
+import fastify from 'fastify';
+import FormBody from 'fastify-formbody';
+import Swagger from 'fastify-swagger';
 
-  try {
-    await app.listen(PORT, HOST);
-  } catch (err) {
-    app.log.error(err);
-    process.exit(1);
-  }
-};
+import { SWAGGER_OPTIONS } from './options';
+import connectToPostgreSQL from './plugins/connectToPostgreSQL';
+import setupRedisSession from './plugins/setupRedisSession';
+import authGate from './utils/authGate';
+// routes
+import authRoutes from './routes/auth';
+import checkRoutes from './routes/check';
+import userRoutes from './routes/user';
 
-export default startServer;
+function build(opts = {}) {
+  const app = fastify(opts);
+  // plugins
+  app.register(FormBody);
+  app.register(setupRedisSession);
+  app.register(connectToPostgreSQL);
+  app.register(Swagger, SWAGGER_OPTIONS);
+  // hooks
+  app.addHook('preHandler', authGate);
+  // routes
+  app.register(checkRoutes);
+  app.register(authRoutes);
+  app.register(userRoutes);
+
+  return app;
+}
+
+export default build;
