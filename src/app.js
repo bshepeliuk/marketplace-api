@@ -11,7 +11,7 @@ import authRoutes from './routes/auth';
 import checkRoutes from './routes/check';
 import userRoutes from './routes/user';
 
-function build(opts = {}) {
+function buildApp(opts = {}) {
   const app = fastify(opts);
   // plugins
   app.register(FormBody);
@@ -28,4 +28,4 @@ function build(opts = {}) {
   return app;
 }
 
-export default build;
+export default buildApp;

@@ -2,7 +2,7 @@ import models from '../database';
 import PasswordService from './PasswordService';
 
 const UserService = {
-  add({ email, password, role, fullName }) {
+  create({ email, password, role, fullName }) {
     return models.User.create({ email, password, role, fullName });
   },
   getById(id) {
@@ -18,7 +18,7 @@ const UserService = {
   async verifyCredentials({ email, password }) {
     const user = await this.getByEmail(email);
 
-    if (user && user.email !== email) return false;
+    if (user === null || user.email !== email) return false;
 
     const hasVerified = await PasswordService.verify({
       password,
@@ -26,6 +26,10 @@ const UserService = {
     });
 
     return hasVerified;
+  },
+  // only for tests
+  async removeAllUsers() {
+    await models.User.destroy({ where: {} });
   },
 };
 

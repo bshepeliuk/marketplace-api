@@ -1,6 +1,14 @@
 import PasswordService from '../services/PasswordService';
 import UserService from '../services/UserService';
 
+function attachUserPropsToSession(user, session) {
+  session.current = {
+    userId: user.id,
+    role: user.role,
+    isLoggedIn: true,
+  };
+}
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -27,12 +35,8 @@ export const login = async (req, res) => {
 
       return;
     }
-    // TODO: refactoring
-    req.session.current = {
-      userId: user.id,
-      role: user.role,
-      isLoggedIn: true,
-    };
+
+    attachUserPropsToSession(user, req.session);
 
     res.status(200).send({ user });
   } catch (error) {
@@ -48,7 +52,7 @@ export const register = async (req, res) => {
 
     if (isEmailUnique) {
       const hashedPassword = await PasswordService.hash(password);
-      const user = await UserService.add({
+      const user = await UserService.create({
         email,
         fullName,
         role,
