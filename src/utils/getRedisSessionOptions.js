@@ -1,4 +1,4 @@
-import { isItProductionMode } from '../utils/isItProductionMode';
+import { isItProductionMode } from './checkEnvMode';
 
 function getRedisSessionOptions(redisInstance) {
   const REDIS_HOST_DEV = '127.0.0'; // TODO: move to .env

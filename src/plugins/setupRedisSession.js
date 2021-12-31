@@ -6,7 +6,7 @@ import getRedisClientAndStorage from '../utils/getRedisClientAndStorage';
 import getRedisSessionOptions from '../utils/getRedisSessionOptions';
 import listenToRedisConnection from '../utils/listenToRedisConnection';
 
-const redisInstance = getRedisClientAndStorage();
+export const redisInstance = getRedisClientAndStorage();
 const sessionOptions = getRedisSessionOptions(redisInstance);
 
 listenToRedisConnection(redisInstance);
