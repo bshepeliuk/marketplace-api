@@ -15,6 +15,10 @@ const UserService = {
     const user = await this.getByEmail(email);
     return !user;
   },
+  async isNotUniqueEmail(email) {
+    const isItUnique = await this.isItUniqueEmail(email);
+    return !isItUnique;
+  },
   async verifyCredentials({ email, password }) {
     const user = await this.getByEmail(email);
 

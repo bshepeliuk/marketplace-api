@@ -1,102 +1,58 @@
 import PasswordService from '../services/PasswordService';
 import UserService from '../services/UserService';
-
-function attachUserPropsToSession(user, session) {
-  session.current = {
-    userId: user.id,
-    role: user.role,
-    isLoggedIn: true,
-  };
-}
+import { ApiError, BadRequestApiError } from '../utils/ApiErrors';
+import attachUserPropsToSession from '../utils/attachUserPropsToSession';
+import destroyAuthSession from '../utils/destroyAuthSession';
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
-  try {
-    const user = await UserService.getByEmail(email);
+  const user = await UserService.getByEmail(email);
+  const hasVerified = await UserService.verifyCredentials({
+    email,
+    password,
+  });
 
-    if (!user) {
-      res.status(400).send({
-        message: 'Email or password is incorrect.',
-      });
+  const canNotBeLoggedIn = !user || !hasVerified;
 
-      return;
-    }
-
-    const hasVerified = await UserService.verifyCredentials({
-      email,
-      password,
-    });
-
-    if (!hasVerified) {
-      res.status(400).send({
-        message: 'Email or password is incorrect.',
-      });
-
-      return;
-    }
-
-    attachUserPropsToSession(user, req.session);
-
-    res.status(200).send({ user });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
+  if (canNotBeLoggedIn) {
+    throw new BadRequestApiError('Email or password is not correct!');
   }
+
+  attachUserPropsToSession(user, req.session);
+
+  res.status(200).send({ user });
 };
 
 export const register = async (req, res) => {
   const { email, password, role, fullName } = req.body;
 
-  try {
-    const isEmailUnique = await UserService.isItUniqueEmail(email);
+  const isNotUniqueEmail = await UserService.isNotUniqueEmail(email);
 
-    if (isEmailUnique) {
-      const hashedPassword = await PasswordService.hash(password);
-      const user = await UserService.create({
-        email,
-        fullName,
-        role,
-        password: hashedPassword,
-      });
-
-      res.status(200).send({
-        email: user.email,
-        fullName: user.fullName,
-        role: user.role,
-      });
-
-      return;
-    }
-
-    res.code(409).send({
-      message: 'Account with this email already exists.',
-    });
-  } catch (error) {
-    res.status(500).send({
-      message: error.message,
-    });
+  if (isNotUniqueEmail) {
+    throw new ApiError(409, 'Account with this email already exists.');
   }
+
+  const hashedPassword = await PasswordService.hash(password);
+  const user = await UserService.create({
+    email,
+    fullName,
+    role,
+    password: hashedPassword,
+  });
+
+  res.status(200).send({
+    email: user.email,
+    fullName: user.fullName,
+    role: user.role,
+  });
 };
 
-export const logout = (req, res) => {
-  try {
-    req.sessionStore.destroy(req.session.sessionId, (err) => {
-      if (err) {
-        res.status(400).send({
-          message: 'Failed to log out.',
-        });
+export const logout = async (req, res) => {
+  await destroyAuthSession(req);
 
-        return;
-      }
-
-      req.session = null;
-      res.clearCookie('sessionId', { path: '/' });
-
-      res.status(200).send({
-        message: 'Successfully logged out.',
-      });
-    });
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
+  res.clearCookie('sessionId', { path: '/' });
+  res.status(200).send({
+    message: 'Successfully logged out.',
+  });
 };

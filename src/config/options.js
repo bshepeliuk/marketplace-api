@@ -1,4 +1,4 @@
-import { isItTestMode } from './utils/checkEnvMode';
+import { isItTestMode } from '../utils/checkEnvMode';
 
 const loggerOptions = {
   prettyPrint: {

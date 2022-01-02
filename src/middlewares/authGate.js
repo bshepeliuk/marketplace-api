@@ -1,10 +1,11 @@
-const routes = {
-  login: '/api/auth/login',
-  register: '/api/auth/register',
-};
+import { PUBLIC_ROUTES } from '../config/constants';
+import {
+  PermissionDeniedApiError,
+  UnauthorizedApiError,
+} from '../utils/ApiErrors';
 
 const isItPublicRoute = (url) => {
-  return [routes.login, routes.register].includes(url);
+  return [PUBLIC_ROUTES.login, PUBLIC_ROUTES.register].includes(url);
 };
 
 function authGate(req, res, next) {
@@ -20,13 +21,11 @@ function authGate(req, res, next) {
   const hasNoAuthorized = !isLoggedIn && !isPublicRoute;
 
   if (hasNoAuthorized) {
-    res.status(401);
-    return next(new Error('Unauthorized.'));
+    return next(new UnauthorizedApiError());
   }
 
   if (hasNoPermission) {
-    res.status(403);
-    return next(new Error('Access denied.'));
+    return next(new PermissionDeniedApiError());
   }
 
   next();

@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { sequelizeProductionOptions } from '../options';
+import { sequelizeProductionOptions } from '../config/options';
 import DATABASE_CONFIG from './config/database';
 // models
 import User from './models/User';

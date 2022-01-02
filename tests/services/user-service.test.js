@@ -59,16 +59,32 @@ describe('UserService', () => {
     expect(u).toBe(null);
   });
 
-  test('should return TRUE in case EMAIL is unique.', async () => {
+  test('should return FALSE in case EMAIL is unique.', async () => {
     const isItUniqueEmail = await UserService.isItUniqueEmail(
       nonExistentUser.email
     );
+
     expect(isItUniqueEmail).toBe(true);
   });
 
   test('should return FALSE in case EMAIL is not unique.', async () => {
     const isItUniqueEmail = await UserService.isItUniqueEmail(user.email);
+
     expect(isItUniqueEmail).toBe(false);
+  });
+
+  test('should return TRUE in case EMAIL is not unique.', async () => {
+    const isNotUniqueEmail = await UserService.isNotUniqueEmail(user.email);
+
+    expect(isNotUniqueEmail).toBe(true);
+  });
+
+  test('should return FALSE in case EMAIL is unique.', async () => {
+    const isNotUniqueEmail = await UserService.isNotUniqueEmail(
+      nonExistentUser.email
+    );
+
+    expect(isNotUniqueEmail).toBe(false);
   });
 
   test('should return TRUE in case credentials is correct.', async () => {
