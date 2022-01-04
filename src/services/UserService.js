@@ -8,7 +8,7 @@ const UserService = {
   getById(id) {
     return models.User.findOne({
       where: { id },
-      attributes: ['fullName', 'email', 'role'],
+      attributes: ['fullName', 'email', 'role', 'id'],
       include: {
         model: models.Rating,
         as: 'ratings',

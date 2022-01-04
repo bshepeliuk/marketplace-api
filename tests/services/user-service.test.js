@@ -39,7 +39,7 @@ describe('UserService', () => {
     expect(user).toHaveProperty('id');
   });
 
-  test('should return user from by ID.', async () => {
+  test('should return user by ID.', async () => {
     const u = await UserService.getById(userId);
     expect(userId).toBe(u.id);
   });
