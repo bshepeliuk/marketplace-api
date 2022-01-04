@@ -11,6 +11,9 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER,
       },
+      quantity: {
+        type: Sequelize.INTEGER,
+      },
       name: {
         type: Sequelize.STRING,
       },
@@ -32,9 +35,6 @@ module.exports = {
           key: 'id',
         },
         onDelete: 'CASCADE',
-      },
-      rating: {
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

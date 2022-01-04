@@ -3,9 +3,11 @@ import { Model } from 'sequelize';
 const Cart = (sequelize, DataTypes) => {
   class Cart extends Model {
     static associate(models) {
-      Cart.hasMany(models.CartDevice);
+      Cart.belongsTo(models.User, {
+        foreignKey: 'userId',
+      });
 
-      Cart.belongsTo(models.User);
+      Cart.hasMany(models.CartDevice, { foreignKey: 'cartId' });
     }
   }
 

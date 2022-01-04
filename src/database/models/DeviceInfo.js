@@ -3,7 +3,10 @@ import { Model } from 'sequelize';
 const DeviceInfo = (sequelize, DataTypes) => {
   class DeviceInfo extends Model {
     static associate(models) {
-      DeviceInfo.belongsTo(models.Device);
+      DeviceInfo.belongsTo(models.Device, {
+        foreignKey: 'deviceId',
+        as: 'info',
+      });
     }
   }
 

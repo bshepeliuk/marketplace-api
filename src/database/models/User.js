@@ -3,8 +3,13 @@ import { Model } from 'sequelize';
 const User = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.hasMany(models.Rating);
-      User.hasOne(models.Cart);
+      User.hasMany(models.Rating, {
+        foreignKey: 'userId',
+        as: 'ratings',
+      });
+      User.hasOne(models.Cart, {
+        foreignKey: 'userId',
+      });
     }
   }
 

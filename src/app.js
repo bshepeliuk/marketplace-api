@@ -6,11 +6,16 @@ import connectToPostgreSQL from './plugins/connectToPostgreSQL';
 import setupRedisSession from './plugins/setupRedisSession';
 import authGate from './middlewares/authGate';
 import { SWAGGER_OPTIONS } from './config/options';
-// routes
-import authRoutes from './routes/auth';
-import checkRoutes from './routes/check';
-import userRoutes from './routes/user';
 import errorHandler from './utils/errorHandler';
+// routes
+import authRoutes from './routes/authRoute';
+import userRoutes from './routes/userRoute';
+import typeRoutes from './routes/typeRoute';
+import brandRoutes from './routes/brandRoute';
+import deviceRoutes from './routes/deviceRoute';
+import ratingRoutes from './routes/ratingRoute';
+import cartRoutes from './routes/cartRoute';
+import cartDeviceRoutes from './routes/cartDeviceRoute';
 
 function buildApp(opts = {}) {
   const app = fastify(opts);
@@ -22,9 +27,14 @@ function buildApp(opts = {}) {
 
   app.addHook('preHandler', authGate);
   // routes
-  app.register(checkRoutes);
   app.register(authRoutes);
   app.register(userRoutes);
+  app.register(typeRoutes);
+  app.register(brandRoutes);
+  app.register(deviceRoutes);
+  app.register(ratingRoutes);
+  app.register(cartRoutes);
+  app.register(cartDeviceRoutes);
 
   app.setErrorHandler(errorHandler);
 

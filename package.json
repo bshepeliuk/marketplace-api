@@ -9,7 +9,9 @@
     "build": "babel ./src --out-dir ./dist",
     "clean": "rm -rf ./dist && mkdir dist",
     "test": "NODE_ENV=test jest --verbose ./tests --detectOpenHandles --forceExit",
-    "migrate": "sequelize db:migrate"
+    "migrate": "sequelize db:migrate",
+    "db:create": "sequelize db:create",
+    "db:drop": "sequelize db:drop"
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",

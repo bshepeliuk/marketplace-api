@@ -3,9 +3,8 @@ import { Model } from 'sequelize';
 const CartDevice = (sequelize, DataTypes) => {
   class CartDevice extends Model {
     static associate(models) {
-      CartDevice.hasOne(models.Device);
-
-      CartDevice.belongsTo(models.Cart);
+      CartDevice.belongsTo(models.Cart, { foreignKey: 'cartId' });
+      CartDevice.belongsTo(models.Device, { foreignKey: 'deviceId' });
     }
   }
 
