@@ -1,27 +1,18 @@
 import models from '../database';
 
 export const add = async (req, res) => {
-  const { name, price, brandId, typeId, rating, image, info } = req.body;
+  const { name, price, brandId, typeId, rating, quantity } = req.body;
 
-  const result = await models.Device.create(
-    {
-      name,
-      price,
-      brandId,
-      typeId,
-      rating,
-      image,
-      info,
-    },
-    {
-      include: {
-        model: models.DeviceInfo,
-        as: 'info',
-      },
-    }
-  );
+  const device = await models.Device.create({
+    name,
+    price,
+    brandId,
+    typeId,
+    rating,
+    quantity,
+  });
 
-  res.status(200).send(result);
+  res.status(200).send({ device });
 };
 
 export const getAll = async (req, res) => {
@@ -54,6 +45,10 @@ export const getOne = async (req, res) => {
       {
         model: models.Rating,
         as: 'ratings',
+      },
+      {
+        model: models.DeviceImage,
+        as: 'images',
       },
     ],
   });

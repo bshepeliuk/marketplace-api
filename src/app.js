@@ -16,6 +16,7 @@ import deviceRoutes from './routes/deviceRoute';
 import ratingRoutes from './routes/ratingRoute';
 import cartRoutes from './routes/cartRoute';
 import cartDeviceRoutes from './routes/cartDeviceRoute';
+import deviceImageRoutes from './routes/deviceImageRoute';
 
 function buildApp(opts = {}) {
   const app = fastify(opts);
@@ -35,6 +36,7 @@ function buildApp(opts = {}) {
   app.register(ratingRoutes);
   app.register(cartRoutes);
   app.register(cartDeviceRoutes);
+  app.register(deviceImageRoutes);
 
   app.setErrorHandler(errorHandler);
 

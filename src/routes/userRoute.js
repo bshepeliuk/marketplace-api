@@ -1,6 +1,8 @@
 import * as UserController from '../controllers/UserController';
+import * as validation from '../validations/UserSchema';
 
 const getUserOptions = {
+  schema: validation.UserAccountSchema,
   handler: UserController.getAccountInfo,
 };
 

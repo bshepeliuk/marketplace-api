@@ -11,6 +11,7 @@ import DeviceInfo from './models/DeviceInfo';
 import Rating from './models/Rating';
 import Type from './models/Type';
 import TypeBrand from './models/TypeBrand';
+import DeviceImage from './models/DeviceImage';
 
 const sequelizeInstance = {
   development: () => new Sequelize(DATABASE_CONFIG.development),
@@ -32,6 +33,7 @@ const models = {
   Brand: Brand(sequelize, Sequelize.DataTypes),
   Rating: Rating(sequelize, Sequelize.DataTypes),
   TypeBrand: TypeBrand(sequelize, Sequelize.DataTypes),
+  DeviceImage: DeviceImage(sequelize, Sequelize.DataTypes),
 };
 
 Object.keys(models).forEach((key) => {
