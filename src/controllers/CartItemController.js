@@ -2,7 +2,7 @@ import models from '../database';
 
 export const addToCart = async (req, res) => {
   const { cartId, deviceId } = req.body;
-  const cart = await models.CartDevice.create({ cartId, deviceId });
+  const cart = await models.CartItem.create({ cartId, deviceId });
 
   res.status(200).send({ cart });
 };
@@ -10,7 +10,7 @@ export const addToCart = async (req, res) => {
 export const removeFromCart = async (req, res) => {
   const { deviceId } = req.params;
 
-  await models.CartDevice.destroy({ where: { deviceId } });
+  await models.CartItem.destroy({ where: { deviceId } });
 
   res.status(200).send({
     message: 'Deleted.',
@@ -30,7 +30,7 @@ export const getDevicesFromCart = async (req, res) => {
   const devices = await models.Device.findAll({
     include: [
       {
-        model: models.CartDevice,
+        model: models.CartItem,
         where: { cartId: cart.id },
         attributes: [],
       },

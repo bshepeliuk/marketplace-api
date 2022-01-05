@@ -7,7 +7,7 @@ const Cart = (sequelize, DataTypes) => {
         foreignKey: 'userId',
       });
 
-      Cart.hasMany(models.CartDevice, { foreignKey: 'cartId' });
+      Cart.hasMany(models.CartItem, { foreignKey: 'cartId' });
     }
   }
 
