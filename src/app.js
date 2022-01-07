@@ -15,7 +15,6 @@ import brandRoutes from './routes/brandRoute';
 import deviceRoutes from './routes/deviceRoute';
 import ratingRoutes from './routes/ratingRoute';
 import cartRoutes from './routes/cartRoute';
-import cartItemRoutes from './routes/carItemRoute';
 import deviceImageRoutes from './routes/deviceImageRoute';
 
 function buildApp(opts = {}) {
@@ -35,7 +34,6 @@ function buildApp(opts = {}) {
   app.register(deviceRoutes);
   app.register(ratingRoutes);
   app.register(cartRoutes);
-  app.register(cartItemRoutes);
   app.register(deviceImageRoutes);
 
   app.setErrorHandler(errorHandler);

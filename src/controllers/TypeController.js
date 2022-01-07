@@ -1,9 +1,10 @@
 import models from '../database';
+import TypeService from '../services/TypeService';
 
 export const add = async (req, res) => {
   const { name } = req.body;
 
-  const type = await models.Type.create({ name });
+  const type = await TypeService.create({ name });
 
   res.status(200).send({ type });
 };

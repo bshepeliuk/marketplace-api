@@ -58,11 +58,13 @@ export const RegisterSchema = {
     200: {
       type: 'object',
       properties: {
-        email: { type: 'string' },
-        fullName: { type: 'string' },
-        role: {
-          type: 'string',
-          enum: ['BUYER', 'SELLER'],
+        user: {
+          email: { type: 'string' },
+          fullName: { type: 'string' },
+          role: {
+            type: 'string',
+            enum: ['BUYER', 'SELLER'],
+          },
         },
       },
     },

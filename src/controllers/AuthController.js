@@ -40,11 +40,13 @@ export const register = async (req, res) => {
     role,
     password: hashedPassword,
   });
-
+  // TODO: get user object without password field
   res.status(200).send({
-    email: user.email,
-    fullName: user.fullName,
-    role: user.role,
+    user: {
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+    },
   });
 };
 

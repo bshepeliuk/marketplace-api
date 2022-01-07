@@ -1,9 +1,10 @@
 import models from '../database';
+import BrandService from '../services/BrandService';
 
 export const add = async (req, res) => {
   const { name } = req.body;
 
-  const brand = await models.Brand.create({ name });
+  const brand = await BrandService.create({ name });
 
   res.status(200).send({ brand });
 };

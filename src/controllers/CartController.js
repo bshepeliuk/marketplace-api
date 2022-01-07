@@ -1,15 +1,28 @@
-import models from '../database';
+import CartService from '../services/CartService';
 
-export const create = async (req, res) => {
+export const addToCart = async (req, res) => {
+  const { deviceId, quantity } = req.body;
   const { userId } = req.session.current;
-  const cart = await models.Cart.create({ userId });
+
+  const cart = await CartService.addToCart({ userId, deviceId, quantity });
 
   res.status(200).send({ cart });
 };
 
-export const get = async (req, res) => {
-  const { userId } = req.session.current;
-  const cart = await models.Cart.findOne({ where: { userId } });
+export const removeFromCart = async (req, res) => {
+  const { deviceId } = req.params;
 
-  res.status(200).send({ cart });
+  await CartService.removeFromCartByDeviceId(deviceId);
+
+  res.status(200).send({
+    message: 'Deleted.',
+  });
+};
+
+export const getDevicesFromCart = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const devices = await CartService.getDeviceFromCartByUserId(userId);
+
+  res.status(200).send({ cart: { devices } });
 };

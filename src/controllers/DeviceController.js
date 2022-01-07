@@ -1,14 +1,15 @@
 import models from '../database';
+import DeviceService from '../services/DeviceService';
 
 export const add = async (req, res) => {
-  const { name, price, brandId, typeId, rating, quantity } = req.body;
+  const { name, price, brandId, typeId, quantity } = req.body;
 
-  const device = await models.Device.create({
+  const device = await DeviceService.create({
     name,
     price,
     brandId,
     typeId,
-    rating,
+
     quantity,
   });
 
@@ -29,7 +30,7 @@ export const getAll = async (req, res) => {
     ],
   });
 
-  res.status(200).send(devices);
+  res.status(200).send({ devices });
 };
 
 export const getOne = async (req, res) => {

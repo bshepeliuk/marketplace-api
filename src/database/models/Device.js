@@ -3,7 +3,7 @@ import { Model } from 'sequelize';
 const Device = (sequelize, DataTypes) => {
   class Device extends Model {
     static associate(models) {
-      Device.hasMany(models.CartItem, { foreignKey: 'deviceId' });
+      Device.hasMany(models.CartItem, { foreignKey: 'deviceId', as: 'cart' });
       Device.hasMany(models.DeviceInfo, { foreignKey: 'deviceId', as: 'info' });
       Device.hasMany(models.Rating, { foreignKey: 'deviceId', as: 'ratings' });
       Device.hasMany(models.DeviceImage, {

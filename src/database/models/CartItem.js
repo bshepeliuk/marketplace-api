@@ -4,7 +4,7 @@ const CartItem = (sequelize, DataTypes) => {
   class CartItem extends Model {
     static associate(models) {
       CartItem.belongsTo(models.Cart, { foreignKey: 'cartId' });
-      CartItem.belongsTo(models.Device, { foreignKey: 'deviceId' });
+      CartItem.belongsTo(models.Device, { foreignKey: 'deviceId', as: 'cart' });
     }
   }
 
@@ -12,6 +12,7 @@ const CartItem = (sequelize, DataTypes) => {
     {
       cartId: DataTypes.INTEGER,
       deviceId: DataTypes.INTEGER,
+      quantity: DataTypes.INTEGER,
     },
     {
       sequelize,

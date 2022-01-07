@@ -10,6 +10,7 @@ const OrderItem = (sequelize, DataTypes) => {
     {
       orderId: DataTypes.INTEGER,
       deviceId: DataTypes.INTEGER,
+      quantity: DataTypes.INTEGER,
     },
     {
       sequelize,
