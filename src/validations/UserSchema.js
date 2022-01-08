@@ -1,3 +1,5 @@
+import { VALIDATION_SCHEMA_ERRORS } from './schema_errors';
+
 export const UserAccountSchema = {
   response: {
     200: {
@@ -12,17 +14,6 @@ export const UserAccountSchema = {
         },
       },
     },
-    400: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
+    ...VALIDATION_SCHEMA_ERRORS,
   },
 };

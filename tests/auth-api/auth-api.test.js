@@ -69,7 +69,7 @@ describe('Auth API', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user pass incorrect role. BUYER and SELLER allowed', async () => {
+    test('when provided role is incorrect. BUYER and SELLER allowed', async () => {
       const res = await fakeRequest.register({
         email: 'tony@stark.io',
         fullName: 'Tony Stark',
@@ -110,7 +110,7 @@ describe('Auth API', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user with current credentials is not exists.', async () => {
+    test('when user with current credentials does not exists.', async () => {
       const res = await fakeRequest.login({
         email: 'tony@stark.io',
         password: 'incorrect_password',
@@ -119,7 +119,7 @@ describe('Auth API', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user does not pass required field -> PASSWORD', async () => {
+    test('when user does not provide required field -> PASSWORD', async () => {
       const res = await fakeRequest.login({
         email: 'tony@stark.io',
       });
@@ -127,7 +127,7 @@ describe('Auth API', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user does not pass required field -> EMAIL', async () => {
+    test('when user does not provide required field -> EMAIL', async () => {
       const res = await fakeRequest.login({
         password: 'incorrect_password',
       });
@@ -146,13 +146,13 @@ describe('Auth API', () => {
   });
 
   describe('logout', () => {
-    test('when unauthorized user try to logout.', async () => {
+    test('when unauthorized user tries to logout.', async () => {
       const res = await fakeRequest.logout();
 
       expect(res.statusCode).toBe(401);
     });
 
-    test('when authorized user try to logout.', async () => {
+    test('when authorized user tries to logout.', async () => {
       const loggedInUser = await fakeRequest.login({
         email: 'tony@stark.io',
         password: '1111',

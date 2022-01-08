@@ -1,4 +1,3 @@
-import models from '../database';
 import TypeService from '../services/TypeService';
 
 export const add = async (req, res) => {
@@ -10,7 +9,15 @@ export const add = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const types = await models.Type.findAll();
+  const types = await TypeService.findAll();
 
   res.status(200).send({ types });
+};
+
+export const deleteById = async (req, res) => {
+  const { typeId } = req.params;
+
+  await TypeService.destroyById(typeId);
+
+  res.status(200).send({ message: 'Type deleted successfully!!!' });
 };

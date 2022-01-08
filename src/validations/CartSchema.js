@@ -1,3 +1,5 @@
+import { VALIDATION_SCHEMA_ERRORS } from './schema_errors';
+
 export const AddToCartSchema = {
   body: {
     type: 'object',
@@ -22,17 +24,6 @@ export const AddToCartSchema = {
         },
       },
     },
-    400: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
+    ...VALIDATION_SCHEMA_ERRORS,
   },
 };

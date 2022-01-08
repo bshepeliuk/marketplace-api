@@ -56,4 +56,33 @@ export const fakeRequest = {
       },
     });
   },
+  // brand API
+  addNewBrand({ body = {}, cookie = null }) {
+    return this.app.inject({
+      method: 'POST',
+      url: '/api/brands',
+      payload: body,
+      headers: {
+        cookie,
+      },
+    });
+  },
+  deleteBrandById({ brandId, cookie = null }) {
+    return this.app.inject({
+      method: 'DELETE',
+      url: `/api/brands/${brandId}`,
+      headers: {
+        cookie,
+      },
+    });
+  },
+  getAll(cookie = null) {
+    return this.app.inject({
+      method: 'GET',
+      url: '/api/brands',
+      headers: {
+        cookie,
+      },
+    });
+  },
 };

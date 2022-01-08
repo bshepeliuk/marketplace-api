@@ -38,7 +38,7 @@ describe('Cart API', () => {
     redisInstance.client.quit();
   });
 
-  test('when user try to add device to cart with correct properties, should return code 200.', async () => {
+  test('when user tries to add device to cart with correct properties, should return code 200.', async () => {
     const res = await fakeRequest.addToCart({
       cookie: sessionCookies,
       body: {
@@ -51,7 +51,7 @@ describe('Cart API', () => {
     expect(res.statusCode).toBe(200);
   });
 
-  test('when unauthorized user try to add device to own cart, should return code 401.', async () => {
+  test('when unauthorized user tries to add device to own cart, should return code 401.', async () => {
     const res = await fakeRequest.addToCart({
       body: {
         userId: user.id,
@@ -94,13 +94,13 @@ describe('Cart API', () => {
     expect(res.statusCode).toBe(400);
   });
 
-  test('when unauthorized user try to get devices from cart, should return code 401.', async () => {
+  test('when unauthorized user tries to get devices from cart, should return code 401.', async () => {
     const res = await fakeRequest.getDevicesFromCart({ cookie: null });
 
     expect(res.statusCode).toBe(401);
   });
 
-  test('when authorized user try to get devices from cart, should return code 200.', async () => {
+  test('when authorized user tries to get devices from cart, should return code 200.', async () => {
     const res = await fakeRequest.getDevicesFromCart({
       cookie: sessionCookies,
     });
@@ -108,7 +108,7 @@ describe('Cart API', () => {
     expect(res.statusCode).toBe(200);
   });
 
-  test('should return code 200 when logged in user try to delete device from cart.', async () => {
+  test('should return code 200 when logged in user tries to delete device from cart.', async () => {
     const res = await fakeRequest.removeFromCartByDeviceId({
       cookie: sessionCookies,
       deviceId: device.id,
@@ -117,7 +117,7 @@ describe('Cart API', () => {
     expect(res.statusCode).toBe(200);
   });
 
-  test('should return code 401 when unathorized user try to delete device from cart.', async () => {
+  test('should return code 401 when unathorized user tries to delete device from cart.', async () => {
     const res = await fakeRequest.removeFromCartByDeviceId({
       deviceId: device.id,
     });
@@ -125,7 +125,7 @@ describe('Cart API', () => {
     expect(res.statusCode).toBe(401);
   });
 
-  test('should return code 500 when user did not pass [deviceId] property.', async () => {
+  test('should return code 500 when user did not provide required property ---> [deviceId].', async () => {
     const res = await fakeRequest.removeFromCartByDeviceId({
       cookie: sessionCookies,
     });

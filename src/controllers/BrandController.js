@@ -1,4 +1,3 @@
-import models from '../database';
 import BrandService from '../services/BrandService';
 
 export const add = async (req, res) => {
@@ -10,7 +9,15 @@ export const add = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const brands = await models.Brand.findAll();
+  const brands = await BrandService.findAll();
 
   res.status(200).send({ brands });
+};
+
+export const deleteById = async (req, res) => {
+  const { brandId } = req.params;
+
+  await BrandService.destroyById(brandId);
+
+  res.status(200).send({ message: 'Brand deleted successfully!!!' });
 };
