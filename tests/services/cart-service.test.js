@@ -1,6 +1,6 @@
 import CartService from '../../src/services/CartService';
 import DeviceService from '../../src/services/DeviceService';
-import UserService from '../../src/services/UserService';
+// import UserService from '../../src/services/UserService';
 import { createDevice } from '../test-helpers/createDevice';
 import { createUser } from '../test-helpers/createUser';
 
@@ -14,7 +14,6 @@ describe('CartService', () => {
   });
 
   afterAll(async () => {
-    await UserService.removeAllUsers();
     await DeviceService.destroyById(device.id);
 
     user = null;

@@ -38,10 +38,6 @@ const UserService = {
 
     return hasVerified;
   },
-  // only for tests
-  async removeAllUsers() {
-    await models.User.destroy({ where: {} });
-  },
 };
 
 export default UserService;

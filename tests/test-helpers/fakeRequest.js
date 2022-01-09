@@ -76,10 +76,39 @@ export const fakeRequest = {
       },
     });
   },
-  getAll(cookie = null) {
+  getAllBrands(cookie = null) {
     return this.app.inject({
       method: 'GET',
       url: '/api/brands',
+      headers: {
+        cookie,
+      },
+    });
+  },
+  // type API
+  addNewType({ body = {}, cookie = null }) {
+    return this.app.inject({
+      method: 'POST',
+      url: '/api/types',
+      payload: body,
+      headers: {
+        cookie,
+      },
+    });
+  },
+  getAllTypes(cookie = null) {
+    return this.app.inject({
+      method: 'GET',
+      url: '/api/types',
+      headers: {
+        cookie,
+      },
+    });
+  },
+  deleteTypeById({ typeId, cookie = null }) {
+    return this.app.inject({
+      method: 'DELETE',
+      url: `/api/brands/${typeId}`,
       headers: {
         cookie,
       },

@@ -1,19 +1,15 @@
 import 'dotenv/config';
-import buildApp from '../../src/app';
 import models from '../../src/database';
-import { redisInstance } from '../../src/plugins/setupRedisSession';
 import { createUser } from '../test-helpers/createUser';
 import { fakeRequest } from '../test-helpers/fakeRequest';
+import { appTestInstance } from '../tests-setup';
 
 describe('Brand API', () => {
-  let app;
   let brandId;
   let sessionCookies;
 
   beforeAll(async () => {
-    app = buildApp();
-
-    fakeRequest.init(app);
+    fakeRequest.init(appTestInstance);
 
     const user = await createUser();
     const res = await fakeRequest.login({
@@ -25,12 +21,7 @@ describe('Brand API', () => {
   });
 
   afterAll(async () => {
-    await app.close();
-    await models.User.destroy({ where: {} });
     await models.Brand.destroy({ where: {} });
-    // TODO: create helper for redis instance
-    redisInstance.client.flushall();
-    redisInstance.client.quit();
   });
 
   test('when logged in user tries to add a new brand, should return 200.', async () => {
@@ -67,5 +58,17 @@ describe('Brand API', () => {
     });
 
     expect(res.statusCode).toBe(200);
+  });
+
+  test('when logged in user tries to get all BRANDS of DEVICES, should return 200.', async () => {
+    const res = await fakeRequest.getAllBrands(sessionCookies);
+
+    expect(res.statusCode).toBe(200);
+  });
+
+  test('when user tries to get all BRANDS of DEVICES without session cookies, should return 200.', async () => {
+    const res = await fakeRequest.getAllBrands();
+
+    expect(res.statusCode).toBe(401);
   });
 });

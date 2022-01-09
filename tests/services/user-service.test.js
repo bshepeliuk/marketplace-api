@@ -27,8 +27,6 @@ describe('UserService', () => {
     user = null;
     userId = null;
     userEmail = null;
-
-    await UserService.removeAllUsers();
   });
 
   test('when new user successfully added. [CREATE] method should return such fields: email, password, role, fullName', async () => {

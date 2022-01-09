@@ -1,25 +1,10 @@
 import 'dotenv/config';
-import buildApp from '../../src/app';
-import { redisInstance } from '../../src/plugins/setupRedisSession';
-import UserService from '../../src/services/UserService';
 import { fakeRequest } from '../test-helpers/fakeRequest';
+import { appTestInstance } from '../tests-setup';
 
 describe('Auth API', () => {
-  let app;
-
   beforeAll(() => {
-    app = buildApp();
-    fakeRequest.init(app);
-  });
-
-  afterAll(async () => {
-    await app.close();
-    await UserService.removeAllUsers();
-    // TODO: create helper for redis instance
-    redisInstance.client.flushall();
-    redisInstance.client.quit();
-
-    app = null;
+    fakeRequest.init(appTestInstance);
   });
 
   describe('register', () => {

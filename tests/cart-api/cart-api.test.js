@@ -1,22 +1,17 @@
 import 'dotenv/config';
-import buildApp from '../../src/app';
 import models from '../../src/database';
-import { redisInstance } from '../../src/plugins/setupRedisSession';
-import UserService from '../../src/services/UserService';
 import { createDevice } from '../test-helpers/createDevice';
 import { createUser } from '../test-helpers/createUser';
 import { fakeRequest } from '../test-helpers/fakeRequest';
+import { appTestInstance } from '../tests-setup';
 
 describe('Cart API', () => {
-  let app;
   let user;
   let device;
   let sessionCookies;
 
   beforeAll(async () => {
-    app = buildApp();
-
-    fakeRequest.init(app);
+    fakeRequest.init(appTestInstance);
 
     user = await createUser();
     device = await createDevice();
@@ -30,12 +25,7 @@ describe('Cart API', () => {
   });
 
   afterAll(async () => {
-    await app.close();
-    await UserService.removeAllUsers();
     await models.Device.destroy({ where: {} });
-    // TODO: create helper for redis instance
-    redisInstance.client.flushall();
-    redisInstance.client.quit();
   });
 
   test('when user tries to add device to cart with correct properties, should return code 200.', async () => {

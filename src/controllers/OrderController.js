@@ -1,16 +1,15 @@
-import models from '../database';
+import OrderService from '../services/OrderService';
 
 export const createOrder = async (req, res) => {
   const { userId, status = 'PENDING' } = req.body;
 
-  const order = await models.Order.create({ userId, status });
-  const item = await models.OrderItem.create({ userId, orderId: order.id });
+  const order = await OrderService.create({ userId, status });
 
-  res.status(200).send({ item });
+  res.status(200).send({ order });
 };
 
 export const getAllOrders = async (req, res) => {
-  const orders = await models.OrderItem.findAll();
+  const orders = await OrderService.findAll();
 
   res.status(200).send({ orders });
 };
