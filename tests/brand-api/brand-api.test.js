@@ -1,18 +1,15 @@
 import 'dotenv/config';
 import models from '../../src/database';
 import { createUser } from '../test-helpers/createUser';
-import { fakeRequest } from '../test-helpers/fakeRequest';
-import { appTestInstance } from '../tests-setup';
+import { fakeAuthRequest, fakeBrandRequest } from '../test-helpers/fakeRequest';
 
 describe('Brand API', () => {
   let brandId;
   let sessionCookies;
 
   beforeAll(async () => {
-    fakeRequest.init(appTestInstance);
-
     const user = await createUser();
-    const res = await fakeRequest.login({
+    const res = await fakeAuthRequest.login({
       email: user.email,
       password: '12345',
     });
@@ -25,7 +22,7 @@ describe('Brand API', () => {
   });
 
   test('when logged in user tries to add a new brand, should return 200.', async () => {
-    const res = await fakeRequest.addNewBrand({
+    const res = await fakeBrandRequest.addNewBrand({
       cookie: sessionCookies,
       body: { name: 'NEW_BRAND' },
     });
@@ -36,7 +33,7 @@ describe('Brand API', () => {
   });
 
   test('when user tries to add a new brand without session cookies, should return 401.', async () => {
-    const res = await fakeRequest.addNewBrand({
+    const res = await fakeBrandRequest.addNewBrand({
       body: { name: 'NEW_BRAND' },
     });
 
@@ -44,7 +41,7 @@ describe('Brand API', () => {
   });
 
   test('when user tries to delete brand by ID without session cookies, should return 401.', async () => {
-    const res = await fakeRequest.deleteBrandById({
+    const res = await fakeBrandRequest.deleteBrandById({
       brandId,
     });
 
@@ -52,7 +49,7 @@ describe('Brand API', () => {
   });
 
   test('when logged in user tries to delete brand by ID, should return 200.', async () => {
-    const res = await fakeRequest.deleteBrandById({
+    const res = await fakeBrandRequest.deleteBrandById({
       brandId,
       cookie: sessionCookies,
     });
@@ -61,13 +58,13 @@ describe('Brand API', () => {
   });
 
   test('when logged in user tries to get all BRANDS of DEVICES, should return 200.', async () => {
-    const res = await fakeRequest.getAllBrands(sessionCookies);
+    const res = await fakeBrandRequest.getAllBrands(sessionCookies);
 
     expect(res.statusCode).toBe(200);
   });
 
   test('when user tries to get all BRANDS of DEVICES without session cookies, should return 200.', async () => {
-    const res = await fakeRequest.getAllBrands();
+    const res = await fakeBrandRequest.getAllBrands();
 
     expect(res.statusCode).toBe(401);
   });

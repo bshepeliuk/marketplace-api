@@ -23,7 +23,7 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   const { deviceId } = req.params;
 
-  const device = await DeviceService.findOne(deviceId);
+  const device = await DeviceService.findOneById(deviceId);
 
   res.status(200).send({ device });
 };

@@ -1,4 +1,4 @@
-export const fakeRequest = {
+export const fakeAuthRequest = {
   app: null,
   init(app) {
     this.app = app;
@@ -27,7 +27,13 @@ export const fakeRequest = {
       },
     });
   },
-  // cart API
+};
+
+export const fakeCartRequest = {
+  app: null,
+  init(app) {
+    this.app = app;
+  },
   addToCart({ cookie = null, body = {} }) {
     return this.app.inject({
       method: 'POST',
@@ -56,7 +62,13 @@ export const fakeRequest = {
       },
     });
   },
-  // brand API
+};
+
+export const fakeBrandRequest = {
+  app: null,
+  init(app) {
+    this.app = app;
+  },
   addNewBrand({ body = {}, cookie = null }) {
     return this.app.inject({
       method: 'POST',
@@ -85,7 +97,13 @@ export const fakeRequest = {
       },
     });
   },
-  // type API
+};
+
+export const fakeTypeRequest = {
+  app: null,
+  init(app) {
+    this.app = app;
+  },
   addNewType({ body = {}, cookie = null }) {
     return this.app.inject({
       method: 'POST',
@@ -114,4 +132,57 @@ export const fakeRequest = {
       },
     });
   },
+};
+
+export const fakeDeviceRequest = {
+  app: null,
+  init(app) {
+    this.app = app;
+  },
+  addDevice({ cookie = null, body = {} }) {
+    return this.app.inject({
+      method: 'POST',
+      url: `/api/devices`,
+      payload: body,
+      headers: {
+        cookie,
+      },
+    });
+  },
+  getDeviceById({ cookie = null, deviceId = '' }) {
+    return this.app.inject({
+      method: 'GET',
+      url: `/api/devices/${deviceId}`,
+      headers: {
+        cookie,
+      },
+    });
+  },
+  getAllDevice({ cookie = null }) {
+    return this.app.inject({
+      method: 'GET',
+      url: `/api/devices`,
+      headers: {
+        cookie,
+      },
+    });
+  },
+};
+
+export const fakeRequestInitialization = (appInstance) => {
+  if (!appInstance) {
+    throw new Error('Fastify instance should be provided for fake requests.');
+  }
+
+  const fakeRequestList = [
+    fakeAuthRequest,
+    fakeBrandRequest,
+    fakeCartRequest,
+    fakeDeviceRequest,
+    fakeTypeRequest,
+  ];
+
+  fakeRequestList.forEach((item) => {
+    item.init(appInstance);
+  });
 };
