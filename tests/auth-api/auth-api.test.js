@@ -1,27 +1,7 @@
 import 'dotenv/config';
-import buildApp from '../../src/app';
-import { redisInstance } from '../../src/plugins/setupRedisSession';
-import UserService from '../../src/services/UserService';
-import fakeAuthRequest from './fakeAuthRequest';
+import { fakeAuthRequest } from '../test-helpers/fakeRequest';
 
-describe('Authorization', () => {
-  let app;
-
-  beforeAll(() => {
-    app = buildApp();
-    fakeAuthRequest.init(app);
-  });
-
-  afterAll(async () => {
-    await app.close();
-    await UserService.removeAllUsers();
-    // TODO: create helper for redis instance
-    redisInstance.client.flushall();
-    redisInstance.client.quit();
-
-    app = null;
-  });
-
+describe('Auth API', () => {
   describe('register', () => {
     test('when user credentials for register is empty.', async () => {
       const res = await fakeAuthRequest.register();
@@ -69,7 +49,7 @@ describe('Authorization', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user pass incorrect role. BUYER and SELLER allowed', async () => {
+    test('when provided role is incorrect. BUYER and SELLER allowed', async () => {
       const res = await fakeAuthRequest.register({
         email: 'tony@stark.io',
         fullName: 'Tony Stark',
@@ -110,7 +90,7 @@ describe('Authorization', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user with current credentials is not exists.', async () => {
+    test('when user with current credentials does not exists.', async () => {
       const res = await fakeAuthRequest.login({
         email: 'tony@stark.io',
         password: 'incorrect_password',
@@ -119,7 +99,7 @@ describe('Authorization', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user does not pass required field -> PASSWORD', async () => {
+    test('when user does not provide required field -> PASSWORD', async () => {
       const res = await fakeAuthRequest.login({
         email: 'tony@stark.io',
       });
@@ -127,7 +107,7 @@ describe('Authorization', () => {
       expect(res.statusCode).toBe(400);
     });
 
-    test('when user does not pass required field -> EMAIL', async () => {
+    test('when user does not provide required field -> EMAIL', async () => {
       const res = await fakeAuthRequest.login({
         password: 'incorrect_password',
       });
@@ -146,13 +126,13 @@ describe('Authorization', () => {
   });
 
   describe('logout', () => {
-    test('when unauthorized user try to logout.', async () => {
+    test('when unauthorized user tries to logout.', async () => {
       const res = await fakeAuthRequest.logout();
 
       expect(res.statusCode).toBe(401);
     });
 
-    test('when authorized user try to logout.', async () => {
+    test('when authorized user tries to logout.', async () => {
       const loggedInUser = await fakeAuthRequest.login({
         email: 'tony@stark.io',
         password: '1111',

@@ -5,7 +5,11 @@ import {
 } from '../utils/ApiErrors';
 
 const isItPublicRoute = (url) => {
-  return [PUBLIC_ROUTES.login, PUBLIC_ROUTES.register].includes(url);
+  const isItDocsRoute = url.split('/')[1] === 'docs';
+
+  return (
+    [PUBLIC_ROUTES.login, PUBLIC_ROUTES.register].includes(url) || isItDocsRoute
+  );
 };
 
 function authGate(req, res, next) {

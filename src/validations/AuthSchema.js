@@ -1,3 +1,5 @@
+import { VALIDATION_SCHEMA_ERRORS } from './schema_errors';
+
 export const LoginSchema = {
   body: {
     type: 'object',
@@ -25,18 +27,7 @@ export const LoginSchema = {
         },
       },
     },
-    400: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
+    ...VALIDATION_SCHEMA_ERRORS,
   },
 };
 
@@ -58,26 +49,17 @@ export const RegisterSchema = {
     200: {
       type: 'object',
       properties: {
-        email: { type: 'string' },
-        fullName: { type: 'string' },
-        role: {
-          type: 'string',
-          enum: ['BUYER', 'SELLER'],
+        user: {
+          email: { type: 'string' },
+          fullName: { type: 'string' },
+          role: {
+            type: 'string',
+            enum: ['BUYER', 'SELLER'],
+          },
         },
       },
     },
-    400: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
+    ...VALIDATION_SCHEMA_ERRORS,
   },
 };
 
@@ -89,17 +71,6 @@ export const LogoutSchema = {
         message: { type: 'string' },
       },
     },
-    400: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
-    500: {
-      type: 'object',
-      properties: {
-        message: { type: 'string' },
-      },
-    },
+    ...VALIDATION_SCHEMA_ERRORS,
   },
 };

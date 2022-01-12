@@ -6,7 +6,14 @@ const UserService = {
     return models.User.create({ email, password, role, fullName });
   },
   getById(id) {
-    return models.User.findOne({ where: { id } });
+    return models.User.findOne({
+      where: { id },
+      attributes: ['fullName', 'email', 'role', 'id'],
+      include: {
+        model: models.Rating,
+        as: 'ratings',
+      },
+    });
   },
   getByEmail(email) {
     return models.User.findOne({ where: { email } });
@@ -30,10 +37,6 @@ const UserService = {
     });
 
     return hasVerified;
-  },
-  // only for tests
-  async removeAllUsers() {
-    await models.User.destroy({ where: {} });
   },
 };
 

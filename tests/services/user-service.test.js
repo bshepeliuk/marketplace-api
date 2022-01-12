@@ -27,8 +27,6 @@ describe('UserService', () => {
     user = null;
     userId = null;
     userEmail = null;
-
-    await UserService.removeAllUsers();
   });
 
   test('when new user successfully added. [CREATE] method should return such fields: email, password, role, fullName', async () => {
@@ -39,7 +37,7 @@ describe('UserService', () => {
     expect(user).toHaveProperty('id');
   });
 
-  test('should return user from by ID.', async () => {
+  test('should return user by ID.', async () => {
     const u = await UserService.getById(userId);
     expect(userId).toBe(u.id);
   });
