@@ -126,7 +126,7 @@ export const fakeTypeRequest = {
   deleteTypeById({ typeId, cookie = null }) {
     return this.app.inject({
       method: 'DELETE',
-      url: `/api/brands/${typeId}`,
+      url: `/api/types/${typeId}`,
       headers: {
         cookie,
       },
@@ -169,6 +169,39 @@ export const fakeDeviceRequest = {
   },
 };
 
+export const fakeRatingRequest = {
+  app: null,
+  init(app) {
+    this.app = app;
+  },
+  addRatingForDevice({ cookie = null, body = {} }) {
+    return this.app.inject({
+      method: 'POST',
+      url: `/api/ratings`,
+      payload: body,
+      headers: {
+        cookie,
+      },
+    });
+  },
+};
+
+export const fakeUserRequest = {
+  app: null,
+  init(app) {
+    this.app = app;
+  },
+  getUserInfo({ cookie = null }) {
+    return this.app.inject({
+      method: 'GET',
+      url: '/api/user',
+      headers: {
+        cookie,
+      },
+    });
+  },
+};
+
 export const fakeRequestInitialization = (appInstance) => {
   if (!appInstance) {
     throw new Error('Fastify instance should be provided for fake requests.');
@@ -180,6 +213,8 @@ export const fakeRequestInitialization = (appInstance) => {
     fakeCartRequest,
     fakeDeviceRequest,
     fakeTypeRequest,
+    fakeRatingRequest,
+    fakeUserRequest,
   ];
 
   fakeRequestList.forEach((item) => {
