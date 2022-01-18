@@ -11,15 +11,19 @@
     "test": "NODE_ENV=test jest --verbose ./tests --detectOpenHandles --forceExit",
     "migrate": "sequelize db:migrate",
     "db:create": "sequelize db:create",
-    "db:drop": "sequelize db:drop"
+    "db:drop": "sequelize db:drop",
+    "db:seed:all": "sequelize db:seed:all"
   },
   "dependencies": {
+    "@babel/register": "^7.16.9",
+    "@babel/core": "^7.16.7",
     "@babel/runtime": "^7.16.3",
     "@fastify/session": "^6.2.2",
     "connect-redis": "^6.0.0",
     "dotenv": "^10.0.0",
     "fastify": "^3.24.0",
     "fastify-cookie": "^5.3.2",
+    "fastify-cors": "^6.0.2",
     "fastify-formbody": "^5.2.0",
     "fastify-plugin": "^3.0.0",
     "fastify-swagger": "^4.12.6",
@@ -32,9 +36,7 @@
     "sequelize-cli": "^6.3.0"
   },
   "devDependencies": {
-    "@babel/register": "^7.16.7",
     "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.7",
     "@babel/node": "^7.16.0",
     "@babel/plugin-transform-runtime": "^7.16.0",
     "@babel/preset-env": "^7.16.0",

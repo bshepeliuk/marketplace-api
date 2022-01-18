@@ -1,7 +1,7 @@
 import fastify from 'fastify';
 import FormBody from 'fastify-formbody';
 import Swagger from 'fastify-swagger';
-
+import FastifyCors from 'fastify-cors';
 import connectToPostgreSQL from './plugins/connectToPostgreSQL';
 import setupRedisSession from './plugins/setupRedisSession';
 import authGate from './middlewares/authGate';
@@ -24,6 +24,7 @@ function buildApp(opts = {}) {
   app.register(setupRedisSession);
   app.register(connectToPostgreSQL);
   app.register(Swagger, SWAGGER_OPTIONS);
+  app.register(FastifyCors, { origin: true, credentials: true });
 
   app.addHook('preHandler', authGate);
   // routes
