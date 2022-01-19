@@ -31,7 +31,7 @@ RUN npm i --only=production
 # copy transpiled js from "builder" stage into the "final" image
 COPY --from=builder ./app/dist ./src
 
-COPY .sequelizerc .
+COPY .sequelizerc_docker .sequelizerc
 
 COPY ./scripts/entrypoint.sh ./entrypoint.sh
 
