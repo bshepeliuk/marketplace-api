@@ -18,6 +18,7 @@ function getRedisSessionOptions(redisInstance) {
     saveUninitialized: false,
     cookie: {
       path: '/',
+      sameSite: 'none',
       secure: isItProductionMode(),
       httpOnly: true,
       maxAge: SESSION_TTL,
