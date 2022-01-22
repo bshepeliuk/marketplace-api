@@ -2,6 +2,7 @@ import PasswordService from '../services/PasswordService';
 import UserService from '../services/UserService';
 import { ApiError, BadRequestApiError } from '../utils/ApiErrors';
 import attachUserPropsToSession from '../utils/attachUserPropsToSession';
+import { isItProductionMode } from '../utils/checkEnvMode';
 import destroyAuthSession from '../utils/destroyAuthSession';
 
 export const login = async (req, res) => {
@@ -53,7 +54,13 @@ export const register = async (req, res) => {
 export const logout = async (req, res) => {
   await destroyAuthSession(req);
 
-  res.clearCookie('sessionId', { path: '/' });
+  res.clearCookie('sessionId', {
+    path: '/',
+    sameSite: isItProductionMode ? 'none' : 'lax',
+    secure: isItProductionMode,
+    httpOnly: true,
+  });
+
   res.status(200).send({
     message: 'Successfully logged out.',
   });
