@@ -70,7 +70,7 @@ commands:
           working_directory: ~/app
           name: Login into Heroku Docker Repository
           command: |
-            echo $HEROKU_AUTH_TOKEN | docker login -u $DOCKER_USER --password-stdin registry.heroku.com
+            docker login --username=$HEROKU_EMAIL --password=$HEROKU_AUTH_TOKEN registry.heroku.com
   run_deploy_to_heroku:
     description: Deploy app to Heroku
     steps:
