@@ -180,10 +180,10 @@ describe('Device API', () => {
       expect(res.statusCode).toBe(401);
     });
 
-    test('whe user tries to get all devices, should return code 401.', async () => {
+    test('whe user tries to get all devices, should return code 200.', async () => {
       const res = await fakeDeviceRequest.getAllDevice({});
 
-      expect(res.statusCode).toBe(401);
+      expect(res.statusCode).toBe(200);
     });
 
     test('whe user tries to get device by ID, should return code 401.', async () => {

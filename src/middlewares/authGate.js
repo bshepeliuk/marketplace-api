@@ -4,16 +4,14 @@ import {
   UnauthorizedApiError,
 } from '../utils/ApiErrors';
 
-const isItPublicRoute = (url) => {
-  const isItDocsRoute = url.split('/')[1] === 'docs';
-  // TODO: check method
-  return (
-    [
-      PUBLIC_ROUTES.login,
-      PUBLIC_ROUTES.register,
-      PUBLIC_ROUTES.devices,
-    ].includes(url) || isItDocsRoute
+const isItPublicRoute = ({ path, method }) => {
+  const isItDocsRoute = path.split('/')[1] === 'docs';
+
+  const isItPublic = PUBLIC_ROUTES.some(
+    (route) => route.path === path && route.method === method
   );
+
+  return isItDocsRoute || isItPublic;
 };
 
 function authGate(req, res, next) {
@@ -23,7 +21,10 @@ function authGate(req, res, next) {
   const role = hasSession ? req.session.current.role : null;
 
   const isLoggedIn = hasSession && req.session.current.isLoggedIn;
-  const isPublicRoute = isItPublicRoute(req.raw.url);
+  const isPublicRoute = isItPublicRoute({
+    path: req.raw.url,
+    method: req.method,
+  });
   // prettier-ignore
   const hasNoPermission = config.hasOwnProperty('roles') && !config.roles.includes(role);
   const hasNoAuthorized = !isLoggedIn && !isPublicRoute;
