@@ -77,6 +77,17 @@ export const getDevicesSchema = {
               quantity: { type: 'number' },
               createdAt: { type: 'string' },
               updatedAt: { type: 'string' },
+              images: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    id: { type: 'number' },
+                    url: { type: 'string' },
+                    deviceId: { type: 'number' },
+                  },
+                },
+              },
             },
           },
         },

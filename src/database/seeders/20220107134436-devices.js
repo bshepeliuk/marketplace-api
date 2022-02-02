@@ -17,6 +17,15 @@
   id: 5 -> 'LENOVO',
   id: 6 -> 'ACER',
 
+  Devices
+
+  id: 1 -> ASUS Zenbook 15
+  id: 2 -> HP Pavillion 15 eh1021-ua
+  id: 3 -> DELL Lattitude 7505
+  id: 4 -> Lenovo Legion 5
+  id: 5 -> Acer Nitro 5
+  id: 6 -> Apple Macbook Pro
+
 */
 
 export default {

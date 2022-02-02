@@ -6,9 +6,13 @@ import {
 
 const isItPublicRoute = (url) => {
   const isItDocsRoute = url.split('/')[1] === 'docs';
-
+  // TODO: check method
   return (
-    [PUBLIC_ROUTES.login, PUBLIC_ROUTES.register].includes(url) || isItDocsRoute
+    [
+      PUBLIC_ROUTES.login,
+      PUBLIC_ROUTES.register,
+      PUBLIC_ROUTES.devices,
+    ].includes(url) || isItDocsRoute
   );
 };
 

@@ -21,6 +21,10 @@ const DeviceService = {
           model: models.Rating,
           as: 'ratings',
         },
+        {
+          model: models.DeviceImage,
+          as: 'images',
+        },
       ],
     });
   },
