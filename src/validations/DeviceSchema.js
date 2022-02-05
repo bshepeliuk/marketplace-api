@@ -51,6 +51,17 @@ export const getDeviceSchema = {
             quantity: { type: 'number' },
             createdAt: { type: 'string' },
             updatedAt: { type: 'string' },
+            images: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'number' },
+                  url: { type: 'string' },
+                  deviceId: { type: 'number' },
+                },
+              },
+            },
           },
         },
       },
@@ -102,5 +113,13 @@ export const deviceParamsSchema = {
   required: ['deviceId'],
   properties: {
     deviceId: { type: 'number' },
+  },
+};
+
+export const devicesParamsSchema = {
+  type: 'object',
+  properties: {
+    limit: { type: 'number' },
+    offset: { type: 'number' },
   },
 };

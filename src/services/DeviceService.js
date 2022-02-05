@@ -10,8 +10,11 @@ const DeviceService = {
       quantity,
     });
   },
-  findAll() {
+  findAll({ limit = 20, offset = 0 }) {
     return models.Device.findAll({
+      offset,
+      limit,
+      order: [['id', 'ASC']], // TODO: temp, ony for client tests
       include: [
         {
           model: models.DeviceInfo,

@@ -28,6 +28,27 @@
 
 */
 
+// TODO: temp, only for tests
+function generateDevices() {
+  let id = 11;
+  const result = [];
+
+  for (let i = 0; i < 50; i++) {
+    result.push({
+      id: id++,
+      name: `Test example № - ${i}`,
+      price: 1_000,
+      brandId: 1,
+      typeId: 1,
+      quantity: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
+
+  return result;
+}
+
 export default {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
@@ -93,6 +114,47 @@ export default {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          id: 7,
+          name: 'ASUS Vivobook Pro N7600PC-L2010',
+          price: 25400,
+          brandId: 1,
+          typeId: 1,
+          quantity: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 8,
+          name: 'ASUS Zephyrus G14 GA401QM-HZ337T',
+          price: 71099,
+          brandId: 1,
+          typeId: 1,
+          quantity: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 9,
+          name: 'ASUS FX516PC-HN102',
+          price: 32999,
+          brandId: 1,
+          typeId: 1,
+          quantity: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 10,
+          name: 'ASUS X415EA-EB952',
+          price: 25400,
+          brandId: 1,
+          typeId: 1,
+          quantity: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        ...generateDevices(),
       ],
       {}
     );

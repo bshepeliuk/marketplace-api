@@ -1,18 +1,8 @@
-import { PUBLIC_ROUTES } from '../config/constants';
 import {
   PermissionDeniedApiError,
   UnauthorizedApiError,
 } from '../utils/ApiErrors';
-
-const isItPublicRoute = ({ path, method }) => {
-  const isItDocsRoute = path.split('/')[1] === 'docs';
-
-  const isItPublic = PUBLIC_ROUTES.some(
-    (route) => route.path === path && route.method === method
-  );
-
-  return isItDocsRoute || isItPublic;
-};
+import isItPublicRoute from '../utils/isItPublicRoute';
 
 function authGate(req, res, next) {
   const { config } = req.context;
@@ -21,6 +11,7 @@ function authGate(req, res, next) {
   const role = hasSession ? req.session.current.role : null;
 
   const isLoggedIn = hasSession && req.session.current.isLoggedIn;
+
   const isPublicRoute = isItPublicRoute({
     path: req.raw.url,
     method: req.method,

@@ -53,6 +53,35 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          url:
+            'https://i.allo.ua/media/catalog/product/cache/3/image/620x600/602f0fa2c1f0d1ba5e241f914e856ff9/0/3/033d63cb-3e1a-4aba-a4a5-95a02a603875_result_1.jpg',
+          deviceId: 7,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+
+        {
+          url:
+            'https://i.allo.ua/media/catalog/product/cache/3/image/620x600/602f0fa2c1f0d1ba5e241f914e856ff9/4/0/40db0352-217c-4573-ab74-13f7d3ffe16d_result.jpg',
+          deviceId: 8,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          url:
+            'https://i.allo.ua/media/catalog/product/cache/3/image/620x600/602f0fa2c1f0d1ba5e241f914e856ff9/1/1/1193739_zoom.jpg',
+          deviceId: 9,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          url:
+            'https://i.allo.ua/media/catalog/product/cache/3/image/620x600/602f0fa2c1f0d1ba5e241f914e856ff9/u/0/u0617974_big_result_1.jpg',
+          deviceId: 10,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

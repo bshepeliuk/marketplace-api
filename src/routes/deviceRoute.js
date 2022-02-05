@@ -9,6 +9,7 @@ const addDeviceOptions = {
 const getAllDevicesOptions = {
   handler: DeviceController.getAll,
   schema: validation.getDevicesSchema,
+  params: validation.devicesParamsSchema,
 };
 
 const getDeviceByIdOptions = {
