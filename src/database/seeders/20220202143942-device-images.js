@@ -1,8 +1,7 @@
-const { deviceImages } = require('../seeders_creators');
+import { deviceImages } from '../seeders_creators';
 
-module.exports = {
+export default {
   up: async (queryInterface, Sequelize) => {
-    console.log({ deviceImages });
     await queryInterface.bulkInsert('DeviceImages', deviceImages, {});
   },
 

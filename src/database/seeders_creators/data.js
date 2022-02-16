@@ -9,9 +9,17 @@ export const namesOfBrands = [
   'HUAWEI',
   'MICROSOFT',
   'XIAOMI',
+  'TEST-BRAND',
 ];
 
-export const namesOfTypes = ['laptops', 'tablets', 'phones', 'TVs', 'cameras'];
+export const namesOfTypes = [
+  'laptops',
+  'tablets',
+  'phones',
+  'TVs',
+  'cameras',
+  'test-type',
+];
 
 export const laptopsImages = [
   'https://content2.rozetka.com.ua/goods/images/big/243934866.jpg',
@@ -70,4 +78,49 @@ export const phones = [
   'Samsung Galaxy S21 FE',
   'Xiaomi Redmi Note 10S',
   'Apple iPhone 11',
+];
+
+export const laptopsScreenSize = ['15.6', '13', '14', '17'];
+
+export const laptopsCPU = [
+  'Intel Core i7',
+  'Intel Core i5',
+  'Intel Core i3',
+  'Intel Xeon',
+  'AMD Ryzen 9',
+  'AMD Ryzen 5',
+  'AMD Ryzen 7',
+  'AMD Ryzen 3',
+];
+
+export const laptopsRAM = [4, 8, 16, 32, 64];
+
+export const laptopsGraphics = [
+  'NVIDIA GeForce GTX 1070',
+  'AMD Radeon R7',
+  'NVIDIA GeForce RTX 3080',
+  'AMD Radeon RX Vega 3',
+  'NVIDIA GeForce RTX 3070',
+  'NVIDIA GeForce RTX 2060',
+  'NVIDIA GeForce RTX 3050',
+  'Intel Iris Xe Max',
+  'Intel Iris Xe Graphics G7',
+  'Intel Iris Plus Graphics G4',
+  'AMD Radeon Vega 9',
+  'AMD Radeon RX Vega 5',
+  'AMD Radeon R6',
+  'Intel UHD Graphics',
+  'AMD Radeon R4',
+];
+
+export const laptopsMatrixTypes = ['IPS', 'OLED', 'TN+Film', 'TN', 'Retina'];
+
+export const laptopsScreenResolution = [
+  '1366 x 768',
+  '1600 x 900',
+  '1920 x 1080',
+  '2560 x 1440',
+  '2560 x 1440',
+  '3200 x 1800',
+  '3840 x 2160',
 ];

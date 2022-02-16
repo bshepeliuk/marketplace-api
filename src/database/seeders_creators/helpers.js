@@ -108,35 +108,59 @@ export const attachImgUrlAndGetDeviceImgData = (devices, imagesTitle) => {
     });
     // TODO: compare names and attach url
     const { id } = devices[idx];
-    const [, url] = imagesTitle[idx];
 
-    result.push({
-      url,
-      id: idx,
-      deviceId: id,
-      createdAt: date,
-      updatedAt: date,
-    });
+    const imgData = imagesTitle[idx];
+
+    if (imgData) {
+      result.push({
+        url: imgData[1],
+        id: idx,
+        deviceId: id,
+        createdAt: date,
+        updatedAt: date,
+      });
+    }
   }
 
   return result;
 };
-// TODO: ony for tests, will remove it later
-export const generateTestDevicesFromLastId = (lastId) => {
-  let id = lastId;
+
+export const matchNameToId = (data) => {
+  return data.reduce(
+    (acc, current) => ({ ...acc, [current.name]: current.id }),
+    {}
+  );
+};
+
+export const getAllDevicesByTypeId = ({ devices, typeId }) => {
+  return devices.filter((device) => device.typeId === typeId);
+};
+
+export const getRandomFromList = (list) => {
+  return list[Math.floor(Math.random() * list.length)];
+};
+
+export const generateDeviceDetails = (deviceIds, details) => {
+  let id = 1;
+
   const result = [];
 
-  for (let i = 0; i < 50; i++) {
-    result.push({
-      id: ++id,
-      name: `Test example № - ${i}`,
-      price: 1_000,
-      brandId: 1,
-      typeId: 1,
-      quantity: 1,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+  for (let idx = 0; idx < deviceIds.length; idx++) {
+    for (const [title, descriptions] of details) {
+      const date = generateRandomDate({
+        start: new Date(2021, 0, 1),
+        end: new Date(),
+      });
+
+      result.push({
+        title,
+        id: ++id,
+        deviceId: deviceIds[idx],
+        description: getRandomFromList(descriptions),
+        createdAt: date,
+        updatedAt: date,
+      });
+    }
   }
 
   return result;

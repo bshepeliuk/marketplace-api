@@ -4,13 +4,21 @@ import {
   attachImgUrlToProperDeviceName,
   attachTypeIdAndGetDevices,
   generateBrandsDataByNames,
+  generateDeviceDetails,
   generateDevicesWithFullInfo,
-  generateTestDevicesFromLastId,
   generateTypesDataByNames,
+  getAllDevicesByTypeId,
+  matchNameToId,
 } from './helpers';
 import {
   laptops,
+  laptopsCPU,
+  laptopsGraphics,
   laptopsImages,
+  laptopsMatrixTypes,
+  laptopsRAM,
+  laptopsScreenResolution,
+  laptopsScreenSize,
   namesOfBrands,
   namesOfTypes,
   phones,
@@ -22,10 +30,19 @@ import {
 const deviceBrands = generateBrandsDataByNames(namesOfBrands);
 const deviceTypes = generateTypesDataByNames(namesOfTypes);
 
+const brandIdByName = matchNameToId(deviceBrands);
+const typeIdByName = matchNameToId(deviceTypes);
+
 const devicesWithTypeIds = [
-  ...attachTypeIdAndGetDevices({ items: laptops, typeId: 1 }),
-  ...attachTypeIdAndGetDevices({ items: phones, typeId: 3 }),
-  ...attachTypeIdAndGetDevices({ items: tablets, typeId: 2 }),
+  ...attachTypeIdAndGetDevices({
+    items: laptops,
+    typeId: typeIdByName.laptops,
+  }),
+  ...attachTypeIdAndGetDevices({ items: phones, typeId: typeIdByName.phones }),
+  ...attachTypeIdAndGetDevices({
+    items: tablets,
+    typeId: typeIdByName.tablets,
+  }),
 ];
 
 const deviceImagesWithNames = [
@@ -39,16 +56,36 @@ const devicesWithBrandIds = attachBrandIdAndGetDevices({
   brands: deviceBrands,
 });
 
-const devices = generateDevicesWithFullInfo(devicesWithBrandIds);
+const testDevices = Array(40)
+  .fill(undefined)
+  .map((_, idx) => ({
+    name: `Test example № - ${idx}`,
+    typeId: typeIdByName['test-type'],
+    brandId: brandIdByName['TEST-BRAND'],
+  }));
 
-// TODO: only for testing, will remove it later
-const testDevices = generateTestDevicesFromLastId(
-  devices[devices.length - 1].id
-);
+const devices = generateDevicesWithFullInfo([
+  ...devicesWithBrandIds,
+  ...testDevices,
+]);
 
 const deviceImages = attachImgUrlAndGetDeviceImgData(
   devices,
   deviceImagesWithNames
 );
+// TODO: separate it
+const laptopIds = getAllDevicesByTypeId({
+  devices,
+  typeId: typeIdByName.laptops,
+}).map((item) => item.id);
 
-export { devices, deviceImages, deviceBrands, deviceTypes, testDevices };
+const deviceDetails = generateDeviceDetails(laptopIds, [
+  ['Microprocessor', laptopsCPU],
+  ['Video graphics', laptopsGraphics],
+  ['Screen resolution', laptopsScreenResolution],
+  ['Screen size', laptopsScreenSize],
+  ['Type of matrix', laptopsMatrixTypes],
+  ['RAM', laptopsRAM],
+]);
+
+export { devices, deviceImages, deviceBrands, deviceTypes, deviceDetails };

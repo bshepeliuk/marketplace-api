@@ -1,13 +1,8 @@
-import { devices, testDevices } from '../seeders_creators';
-console.log({ testDevices });
+import { devices } from '../seeders_creators';
+
 export default {
   up: async (queryInterface, Sequelize) => {
-    console.log({ devices });
-    await queryInterface.bulkInsert(
-      'Devices',
-      [...devices, ...testDevices],
-      {}
-    );
+    await queryInterface.bulkInsert('Devices', devices, {});
   },
 
   down: async (queryInterface, Sequelize) => {
