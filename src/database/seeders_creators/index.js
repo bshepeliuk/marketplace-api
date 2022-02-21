@@ -56,7 +56,7 @@ const devicesWithBrandIds = attachBrandIdAndGetDevices({
   brands: deviceBrands,
 });
 
-const testDevices = Array(40)
+const testDevices = Array(60)
   .fill(undefined)
   .map((_, idx) => ({
     name: `Test example № - ${idx}`,

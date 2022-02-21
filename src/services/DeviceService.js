@@ -10,10 +10,15 @@ const DeviceService = {
       quantity,
     });
   },
-  findAll({ limit = 20, offset = 0 }) {
+  findAll({ limit = 20, offset = 0, typeId }) {
+    const where = {};
+
+    if (typeId) where.typeId = typeId;
+
     return models.Device.findAll({
       offset,
       limit,
+      where,
       order: [['id', 'ASC']], // TODO: temp, ony for client tests
       include: [
         {
