@@ -108,6 +108,24 @@ export const getDevicesSchema = {
   },
 };
 
+export const minMaxDevicePriceSchema = {
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        prices: {
+          type: 'object',
+          properties: {
+            min: { type: 'number' },
+            max: { type: 'number' },
+          },
+        },
+      },
+    },
+    ...VALIDATION_SCHEMA_ERRORS,
+  },
+};
+
 export const deviceParamsSchema = {
   type: 'object',
   required: ['deviceId'],

@@ -66,6 +66,6 @@ describe('Type API', () => {
   test('when user tries to get all TYPES of DEVICES without session cookies, should return 200.', async () => {
     const res = await fakeTypeRequest.getAllTypes();
 
-    expect(res.statusCode).toBe(401);
+    expect(res.statusCode).toBe(200);
   });
 });

@@ -22,6 +22,14 @@ export const getAll = async (req, res) => {
   res.status(200).send({ devices });
 };
 
+export const getMinAndMaxPrices = async (req, res) => {
+  const { typeId } = req.params;
+
+  const prices = await DeviceService.getMaxAndMinPricesByTypeId(typeId);
+
+  res.status(200).send({ prices });
+};
+
 export const getOne = async (req, res) => {
   const { deviceId } = req.params;
 

@@ -1,3 +1,4 @@
+import sequelize from 'sequelize';
 import models from '../database';
 
 const DeviceService = {
@@ -55,6 +56,20 @@ const DeviceService = {
       ],
     });
   },
+  async getMaxAndMinPricesByTypeId(typeId) {
+    if (typeId === undefined) return null;
+
+    const prices = await models.Device.findAll({
+      where: { typeId },
+      attributes: [
+        [sequelize.fn('min', sequelize.col('price')), 'min'],
+        [sequelize.fn('max', sequelize.col('price')), 'max'],
+      ],
+    });
+
+    return prices[0];
+  },
+
   destroyById(deviceId) {
     return models.Device.destroy({ where: { id: deviceId } });
   },

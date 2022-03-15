@@ -66,6 +66,6 @@ describe('Brand API', () => {
   test('when user tries to get all BRANDS of DEVICES without session cookies, should return 200.', async () => {
     const res = await fakeBrandRequest.getAllBrands();
 
-    expect(res.statusCode).toBe(401);
+    expect(res.statusCode).toBe(200);
   });
 });
