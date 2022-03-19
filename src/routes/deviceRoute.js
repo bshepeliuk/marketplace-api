@@ -1,9 +1,11 @@
 import * as DeviceController from '../controllers/DeviceController';
+import authGate from '../middlewares/authGate';
 import * as validation from '../validations/DeviceSchema';
 
 const addDeviceOptions = {
   handler: DeviceController.add,
   schema: validation.addDeviceSchema,
+  preHandler: authGate,
 };
 
 const getAllDevicesOptions = {

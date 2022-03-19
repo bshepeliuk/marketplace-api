@@ -4,7 +4,6 @@ import Swagger from 'fastify-swagger';
 import FastifyCors from 'fastify-cors';
 import connectToPostgreSQL from './plugins/connectToPostgreSQL';
 import setupRedisSession from './plugins/setupRedisSession';
-import authGate from './middlewares/authGate';
 import { SWAGGER_OPTIONS } from './config/options';
 import errorHandler from './utils/errorHandler';
 // routes
@@ -25,8 +24,6 @@ function buildApp(opts = {}) {
   app.register(connectToPostgreSQL);
   app.register(Swagger, SWAGGER_OPTIONS);
   app.register(FastifyCors, { origin: true, credentials: true });
-
-  app.addHook('preHandler', authGate);
   // routes
   app.register(authRoutes);
   app.register(userRoutes);

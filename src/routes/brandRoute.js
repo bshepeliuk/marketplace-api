@@ -1,9 +1,11 @@
 import * as BrandController from '../controllers/BrandController';
+import authGate from '../middlewares/authGate';
 import * as validation from '../validations/BrandSchema';
 
 const addBrandOptions = {
   handler: BrandController.add,
   schema: validation.addBrandSchema,
+  preHandler: authGate,
 };
 
 const getAllBrandsOptions = {
@@ -15,6 +17,7 @@ const deleteBrandByIdOptions = {
   handler: BrandController.deleteById,
   schema: validation.deleteBrandsByIdSchema,
   params: validation.brandsParamsSchema,
+  preHandler: authGate,
 };
 
 const brandRoutes = async (fastify) => {

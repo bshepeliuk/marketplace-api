@@ -1,5 +1,6 @@
 import * as AuthController from '../controllers/AuthController';
 import * as AuthSchema from '../validations/AuthSchema';
+import authGate from '../middlewares/authGate';
 
 const loginOptions = {
   schema: AuthSchema.LoginSchema,
@@ -14,6 +15,7 @@ const registerOptions = {
 const logoutOptions = {
   schema: AuthSchema.LogoutSchema,
   handler: AuthController.logout,
+  preHandler: authGate,
 };
 
 const authRoutes = async (fastify) => {
