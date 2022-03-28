@@ -15,6 +15,10 @@ const DeviceInfo = (sequelize, DataTypes) => {
       deviceId: DataTypes.INTEGER,
       title: DataTypes.STRING,
       description: DataTypes.STRING,
+      typeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,

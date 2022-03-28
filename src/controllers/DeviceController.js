@@ -1,3 +1,4 @@
+import DeviceDetailsService from '../services/DeviceDetailsService';
 import DeviceService from '../services/DeviceService';
 
 export const add = async (req, res) => {
@@ -18,16 +19,9 @@ export const getAll = async (req, res) => {
   const { offset, limit, categoryId: typeId } = req.query;
 
   const devices = await DeviceService.findAll({ offset, limit, typeId });
+  const details = await DeviceDetailsService.findAll({ typeId });
 
-  res.status(200).send({ devices });
-};
-
-export const getMinAndMaxPrices = async (req, res) => {
-  const { typeId } = req.params;
-
-  const prices = await DeviceService.getMaxAndMinPricesByTypeId(typeId);
-
-  res.status(200).send({ prices });
+  res.status(200).send({ devices, details });
 };
 
 export const getOne = async (req, res) => {
@@ -36,4 +30,12 @@ export const getOne = async (req, res) => {
   const device = await DeviceService.findOneById(deviceId);
 
   res.status(200).send({ device });
+};
+
+export const getMinAndMaxPrices = async (req, res) => {
+  const { typeId } = req.params;
+
+  const prices = await DeviceService.getMaxAndMinPricesByTypeId(typeId);
+
+  res.status(200).send({ prices });
 };

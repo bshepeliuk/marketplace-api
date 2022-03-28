@@ -79,13 +79,17 @@ const laptopIds = getAllDevicesByTypeId({
   typeId: typeIdByName.laptops,
 }).map((item) => item.id);
 
-const deviceDetails = generateDeviceDetails(laptopIds, [
-  ['Microprocessor', laptopsCPU],
-  ['Video graphics', laptopsGraphics],
-  ['Screen resolution', laptopsScreenResolution],
-  ['Screen size', laptopsScreenSize],
-  ['Type of matrix', laptopsMatrixTypes],
-  ['RAM', laptopsRAM],
-]);
+const deviceDetails = generateDeviceDetails({
+  deviceIds: laptopIds,
+  typeId: typeIdByName.laptops,
+  details: [
+    ['Microprocessor', laptopsCPU],
+    ['Video graphics', laptopsGraphics],
+    ['Screen resolution', laptopsScreenResolution],
+    ['Screen size', laptopsScreenSize],
+    ['Type of matrix', laptopsMatrixTypes],
+    ['RAM', laptopsRAM],
+  ],
+});
 
 export { devices, deviceImages, deviceBrands, deviceTypes, deviceDetails };

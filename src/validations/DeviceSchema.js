@@ -1,5 +1,34 @@
 import { VALIDATION_SCHEMA_ERRORS } from './schema_errors';
 
+const DeviceDetailsSchema = {
+  images: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'number' },
+        url: { type: 'string' },
+        deviceId: { type: 'number' },
+      },
+    },
+  },
+  info: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'number' },
+        typeId: { type: 'number' },
+        title: { type: 'string' },
+        description: { type: 'string' },
+        deviceId: { type: 'number' },
+        createdAt: { type: 'string' },
+        updatedAt: { type: 'string' },
+      },
+    },
+  },
+};
+
 export const addDeviceSchema = {
   body: {
     type: 'object',
@@ -51,17 +80,7 @@ export const getDeviceSchema = {
             quantity: { type: 'number' },
             createdAt: { type: 'string' },
             updatedAt: { type: 'string' },
-            images: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  id: { type: 'number' },
-                  url: { type: 'string' },
-                  deviceId: { type: 'number' },
-                },
-              },
-            },
+            ...DeviceDetailsSchema,
           },
         },
       },
@@ -88,17 +107,7 @@ export const getDevicesSchema = {
               quantity: { type: 'number' },
               createdAt: { type: 'string' },
               updatedAt: { type: 'string' },
-              images: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    id: { type: 'number' },
-                    url: { type: 'string' },
-                    deviceId: { type: 'number' },
-                  },
-                },
-              },
+              ...DeviceDetailsSchema,
             },
           },
         },

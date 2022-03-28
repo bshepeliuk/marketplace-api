@@ -140,7 +140,7 @@ export const getRandomFromList = (list) => {
   return list[Math.floor(Math.random() * list.length)];
 };
 
-export const generateDeviceDetails = (deviceIds, details) => {
+export const generateDeviceDetails = ({ deviceIds, typeId, details }) => {
   let id = 1;
 
   const result = [];
@@ -154,6 +154,7 @@ export const generateDeviceDetails = (deviceIds, details) => {
 
       result.push({
         title,
+        typeId,
         id: ++id,
         deviceId: deviceIds[idx],
         description: getRandomFromList(descriptions),
