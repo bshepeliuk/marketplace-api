@@ -1,6 +1,6 @@
 import { VALIDATION_SCHEMA_ERRORS } from './schema_errors';
 
-const DeviceDetailsSchema = {
+export const DeviceDetailsSchema = {
   images: {
     type: 'array',
     items: {
@@ -109,24 +109,6 @@ export const getDevicesSchema = {
               updatedAt: { type: 'string' },
               ...DeviceDetailsSchema,
             },
-          },
-        },
-      },
-    },
-    ...VALIDATION_SCHEMA_ERRORS,
-  },
-};
-
-export const minMaxDevicePriceSchema = {
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        prices: {
-          type: 'object',
-          properties: {
-            min: { type: 'number' },
-            max: { type: 'number' },
           },
         },
       },

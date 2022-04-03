@@ -165,7 +165,7 @@ describe('Device API', () => {
     });
   });
 
-  describe('Unathorized user', () => {
+  describe('Unauthorized user', () => {
     test('when user tries to add a new device without session cookies, should return code 401.', async () => {
       const res = await fakeDeviceRequest.addDevice({
         body: {

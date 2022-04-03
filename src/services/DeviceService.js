@@ -57,7 +57,7 @@ const DeviceService = {
     });
   },
   async getMaxAndMinPricesByTypeId(typeId) {
-    if (typeId === undefined) return null;
+    if (!typeId) return null;
 
     const prices = await models.Device.findAll({
       where: { typeId },
