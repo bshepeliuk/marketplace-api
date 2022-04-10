@@ -17,7 +17,13 @@ export const add = async (req, res) => {
 export const getAll = async (req, res) => {
   const { offset, limit, categoryId: typeId } = req.query;
 
-  const devices = await DeviceService.findAll({ offset, limit, typeId });
+  const devices = await DeviceService.findAll({
+    offset,
+    limit,
+    typeId,
+    filterOptions: req.query.description, // TODO: rename
+    minMaxPrices: req.query.prices,
+  });
 
   res.status(200).send({ devices });
 };

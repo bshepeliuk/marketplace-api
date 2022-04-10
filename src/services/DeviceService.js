@@ -1,4 +1,4 @@
-import sequelize from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 import models from '../database';
 
 const DeviceService = {
@@ -11,10 +11,24 @@ const DeviceService = {
       quantity,
     });
   },
-  findAll({ limit = 20, offset = 0, typeId }) {
-    const where = {};
+  findAll({ limit = 20, offset = 0, typeId, filterOptions, minMaxPrices }) {
+    let where = {};
+    let whereInfo = {};
 
     if (typeId) where.typeId = typeId;
+    // TODO: refactoring;
+    if (filterOptions?.length > 0) {
+      whereInfo = { [Op.and]: [{ description: filterOptions }] };
+    }
+
+    if (minMaxPrices?.length > 0) {
+      where = {
+        ...where,
+        price: {
+          [Op.between]: [+minMaxPrices[0], +minMaxPrices[1]],
+        },
+      };
+    }
 
     return models.Device.findAll({
       offset,
@@ -24,6 +38,7 @@ const DeviceService = {
       include: [
         {
           model: models.DeviceInfo,
+          where: filterOptions?.length > 0 ? whereInfo : undefined, // TODO: refactoring;
           as: 'info',
         },
         {

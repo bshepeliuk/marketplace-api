@@ -130,5 +130,6 @@ export const devicesParamsSchema = {
   properties: {
     limit: { type: 'number' },
     offset: { type: 'number' },
+    categoryId: { type: 'number' },
   },
 };
