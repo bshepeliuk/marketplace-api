@@ -21,8 +21,10 @@ export const getAll = async (req, res) => {
     offset,
     limit,
     typeId,
-    filterOptions: req.query.description, // TODO: rename
-    minMaxPrices: req.query.prices,
+    filters: {
+      deviceOptions: req.query.deviceOptions,
+      minMaxPrices: req.query.prices,
+    },
   });
 
   res.status(200).send({ devices });
