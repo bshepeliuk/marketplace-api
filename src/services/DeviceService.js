@@ -1,6 +1,6 @@
 import sequelize, { Op } from 'sequelize';
 import models from '../database';
-import deserializeObject from '../utils/deserializeObject';
+import DeviceInfoService from './DeviceInfoService';
 
 const DeviceService = {
   create({ name, price, brandId, typeId, quantity }) {
@@ -16,42 +16,20 @@ const DeviceService = {
     limit = 20,
     offset = 0,
     typeId,
-    filters: { deviceOptions, minMaxPrices },
+    filters: { features, minMaxPrices },
   }) {
-    if (typeof deviceOptions === 'string') {
-      deviceOptions = [deviceOptions];
-    }
+    const where = {};
 
-    const filters = deviceOptions?.map((item) => {
-      return deserializeObject(item);
-    });
-    // TODO: refactoring;
-    const [optionsKeys, or] = (filters || []).reduce((acc, current) => {
-      const [key, value] = Object.entries(current).flat(1);
-      return [(acc[0] || []).concat(key), (acc[1] || []).concat(value)];
-    }, []);
+    const deviceIds = await DeviceInfoService.getDeviceIdsByFeatures(features);
+    // prettier-ignore
+    const hasNoDeviceByOptions = features?.length > 0 && deviceIds.length === 0;
 
-    const countOfOptions = [...new Set(optionsKeys)].length;
+    if (hasNoDeviceByOptions) return [];
 
-    const info = await models.DeviceInfo.findAll({
-      attributes: ['deviceId'],
-      group: ['deviceId'],
-      having: sequelize.where(
-        sequelize.fn('COUNT', sequelize.col('deviceId')),
-        {
-          [Op.eq]: countOfOptions,
-        }
-      ),
-      where: or ? { [Op.or]: [{ description: or }] } : undefined,
-    });
-    const ids = info.map((i) => i.deviceId);
-    // TODO: refactoring;
-    if (filters?.length > 0 && ids.length === 0) return [];
+    if (deviceIds.length > 0) where.id = deviceIds;
 
-    let where = {};
-
-    if (ids.length > 0) where.id = ids;
     if (typeId) where.typeId = typeId;
+
     if (minMaxPrices?.length > 0) {
       where.price = {
         [Op.between]: [+minMaxPrices[0], +minMaxPrices[1]],

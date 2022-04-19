@@ -1,4 +1,5 @@
 import DeviceService from '../services/DeviceService';
+import parseDeviceFeatures from '../utils/parseDeviceFeatures';
 
 export const add = async (req, res) => {
   const { name, price, brandId, typeId, quantity } = req.body;
@@ -15,16 +16,18 @@ export const add = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const { offset, limit, categoryId: typeId } = req.query;
+  const { offset, limit, features, prices, categoryId: typeId } = req.query;
+
+  const filters = {
+    minMaxPrices: prices,
+    features: parseDeviceFeatures(features),
+  };
 
   const devices = await DeviceService.findAll({
     offset,
     limit,
     typeId,
-    filters: {
-      deviceOptions: req.query.deviceOptions,
-      minMaxPrices: req.query.prices,
-    },
+    filters,
   });
 
   res.status(200).send({ devices });
