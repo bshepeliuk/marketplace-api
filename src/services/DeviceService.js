@@ -16,23 +16,23 @@ const DeviceService = {
     limit = 20,
     offset = 0,
     typeId,
-    filters: { features, minMaxPrices },
+    filters: { features, minPrice, maxPrice },
   }) {
     const where = {};
 
     const deviceIds = await DeviceInfoService.getDeviceIdsByFeatures(features);
     // prettier-ignore
-    const hasNoDeviceByOptions = features?.length > 0 && deviceIds.length === 0;
+    const hasNoDeviceByFeatures = features?.length > 0 && deviceIds.length === 0;
 
-    if (hasNoDeviceByOptions) return [];
+    if (hasNoDeviceByFeatures) return [];
 
     if (deviceIds.length > 0) where.id = deviceIds;
 
     if (typeId) where.typeId = typeId;
 
-    if (minMaxPrices?.length > 0) {
+    if (minPrice && maxPrice) {
       where.price = {
-        [Op.between]: [+minMaxPrices[0], +minMaxPrices[1]],
+        [Op.between]: [+minPrice, +maxPrice],
       };
     }
 

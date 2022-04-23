@@ -3,6 +3,13 @@ import sequelize, { Op } from 'sequelize';
 import splitObjOnKeysAndValuesTuple from '../utils/splitObjOnKeysAndValuesTuple';
 
 const DeviceInfoService = {
+  findAll({ typeId }) {
+    const where = {};
+
+    if (typeId) where.typeId = typeId;
+
+    return models.DeviceInfo.findAll({ where });
+  },
   getDeviceIdsByFeatures(features) {
     const [keys, values] = splitObjOnKeysAndValuesTuple(features);
     const countOfOptions = [...new Set(keys)].length;

@@ -16,10 +16,18 @@ export const add = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const { offset, limit, features, prices, categoryId: typeId } = req.query;
+  const {
+    offset,
+    limit,
+    features,
+    minPrice,
+    maxPrice,
+    categoryId: typeId,
+  } = req.query;
 
   const filters = {
-    minMaxPrices: prices,
+    minPrice,
+    maxPrice,
     features: parseDeviceFeatures(features),
   };
 
