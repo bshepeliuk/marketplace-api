@@ -111,6 +111,9 @@ export const getDevicesSchema = {
             },
           },
         },
+        count: {
+          type: 'number',
+        },
       },
     },
     ...VALIDATION_SCHEMA_ERRORS,

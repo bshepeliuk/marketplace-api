@@ -21,7 +21,7 @@ function getRedisSessionOptions(redisInstance) {
       sameSite: isItProductionMode ? 'none' : 'lax',
       secure: isItProductionMode,
       httpOnly: true,
-      maxAge: SESSION_TTL,
+      expires: new Date(new Date().getTime() + SESSION_TTL),
     },
   };
 

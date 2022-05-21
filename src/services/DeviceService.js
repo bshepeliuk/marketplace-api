@@ -36,7 +36,7 @@ const DeviceService = {
       };
     }
 
-    return models.Device.findAll({
+    return models.Device.findAndCountAll({
       offset,
       limit,
       where,

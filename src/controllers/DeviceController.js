@@ -38,7 +38,7 @@ export const getAll = async (req, res) => {
     filters,
   });
 
-  res.status(200).send({ devices });
+  res.status(200).send({ devices: devices.rows, count: devices.count });
 };
 
 export const getOne = async (req, res) => {
