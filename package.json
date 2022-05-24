@@ -30,7 +30,8 @@
     "pino-pretty": "^7.2.0",
     "redis": "^3.1.2",
     "sequelize": "^6.9.0",
-    "sequelize-cli": "^6.3.0"
+    "sequelize-cli": "^6.3.0",
+    "stripe": "^9.4.0"
   },
   "devDependencies": {
     "@babel/register": "^7.16.9",
