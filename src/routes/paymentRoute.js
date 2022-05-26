@@ -1,6 +1,6 @@
 import * as PaymentController from '../controllers/PaymentController';
-import authGate from '../middlewares/authGate';
 import * as PaymentSchema from '../validations/PaymentSchema';
+import authGate from '../middlewares/authGate';
 
 const checkoutSessionOptions = {
   handler: PaymentController.createCheckoutSession,
@@ -10,6 +10,10 @@ const checkoutSessionOptions = {
 
 const paymentRoutes = async (fastify) => {
   fastify.post('/api/create-checkout-session', checkoutSessionOptions);
+  fastify.post('/api/onboard-user', {
+    handler: PaymentController.onBoardUser,
+    preHandler: authGate,
+  });
 };
 
 export default paymentRoutes;

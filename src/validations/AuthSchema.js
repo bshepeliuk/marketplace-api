@@ -25,6 +25,14 @@ export const LoginSchema = {
             },
           },
         },
+        stripeAccount: {
+          type: 'object',
+          nullable: true,
+          properties: {
+            id: { type: 'string' },
+            isActive: { type: 'boolean' },
+          },
+        },
       },
     },
     ...VALIDATION_SCHEMA_ERRORS,
@@ -55,6 +63,14 @@ export const RegisterSchema = {
           role: {
             type: 'string',
             enum: ['BUYER', 'SELLER'],
+          },
+        },
+        stripeAccount: {
+          type: 'object',
+          nullable: true,
+          properties: {
+            id: { type: 'string' },
+            isActive: { type: 'boolean' },
           },
         },
       },

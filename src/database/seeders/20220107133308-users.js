@@ -16,9 +16,17 @@ export default {
           updatedAt: new Date(),
         },
         {
-          fullName: 'Tony Wick',
+          fullName: 'Tony Start',
           email: 'tony@stark.io',
           role: 'SELLER',
+          password: hashedPassword,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          fullName: 'Leam Neeson',
+          email: 'leam@neeson.io',
+          role: 'BUYER',
           password: hashedPassword,
           createdAt: new Date(),
           updatedAt: new Date(),
