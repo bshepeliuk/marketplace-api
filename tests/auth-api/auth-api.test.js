@@ -61,14 +61,18 @@ describe('Auth API', () => {
     });
 
     test('when all registration fields is correct', async () => {
-      const res = await fakeAuthRequest.register({
-        email: 'tony@stark.io',
-        fullName: 'Tony Stark',
-        role: 'BUYER',
-        password: '1111',
-      });
+      try {
+        const res = await fakeAuthRequest.register({
+          email: 'tony@stark.io',
+          fullName: 'Tony Stark',
+          role: 'BUYER',
+          password: '1111',
+        });
 
-      expect(res.statusCode).toBe(200);
+        expect(res.statusCode).toBe(200);
+      } catch (error) {
+        console.log({ error });
+      }
     });
 
     test('when user with the same EMAIL already exists', async () => {
