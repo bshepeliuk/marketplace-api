@@ -4,17 +4,17 @@ executors:
   server_api:
     working_directory: ~/app
     docker:
-      - image: circleci/node:14.18.0
+      - image: cimg/node:18.2.0
         environment:
           NODE_ENV: test
           PGHOST: 127.0.0.1
           PGUSER: bshepeliuk
-      - image: circleci/postgres:10.19
+      - image: cimg/postgres:14.0
         environment:
           POSTGRES_USER: bshepeliuk
           POSTGRES_DB: test-db
           POSTGRES_PASSWORD: bshepeliuk
-      - image: circleci/redis:4.0.9
+      - image: cimg/redis:6.2.6
 
 commands:
   install_dependencies:
