@@ -9,10 +9,16 @@ const UserService = {
     return models.User.findOne({
       where: { id },
       attributes: ['fullName', 'email', 'role', 'id'],
-      include: {
-        model: models.Rating,
-        as: 'ratings',
-      },
+      include: [
+        {
+          model: models.Rating,
+          as: 'ratings',
+        },
+        {
+          model: models.Stripe,
+          as: 'stripe',
+        },
+      ],
     });
   },
   getByEmail(email) {

@@ -14,6 +14,14 @@ export const UserAccountSchema = {
             enum: ['BUYER', 'SELLER'],
           },
         },
+        stripeAccount: {
+          type: 'object',
+          nullable: true,
+          properties: {
+            id: { type: 'string' },
+            isActive: { type: 'boolean' },
+          },
+        },
       },
     },
     ...VALIDATION_SCHEMA_ERRORS,

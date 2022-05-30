@@ -90,6 +90,7 @@ export const generateDevicesWithFullInfo = (info) => {
       name: device.name,
       price: generateRandomInteger({ min: 10_000, max: 50_000 }),
       quantity: generateRandomInteger({ min: 1, max: 10 }),
+      userId: generateRandomInteger({ min: 1, max: 2 }),
       createdAt: date,
       updatedAt: date,
     });

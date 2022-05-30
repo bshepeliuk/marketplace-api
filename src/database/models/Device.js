@@ -14,6 +14,10 @@ const Device = (sequelize, DataTypes) => {
 
       Device.belongsTo(models.Brand, { foreignKey: 'brandId' });
       Device.belongsTo(models.Type, { foreignKey: 'typeId' });
+      Device.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'devices',
+      });
     }
   }
 

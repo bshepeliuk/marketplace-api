@@ -12,10 +12,15 @@ const User = (sequelize, DataTypes) => {
       });
       User.hasOne(models.Stripe, {
         foreignKey: 'userId',
+        as: 'stripe',
       });
       User.hasMany(models.Order, {
         foreignKey: 'userId',
         as: 'orders',
+      });
+      User.hasMany(models.Device, {
+        foreignKey: 'userId',
+        as: 'devices',
       });
     }
   }

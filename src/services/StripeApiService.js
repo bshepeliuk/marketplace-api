@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const BACKEND_DOMAIN = `http://0.0.0.0:3000`;
 
@@ -26,17 +26,41 @@ export const StripeApiService = {
         enabled: true,
       },
       mode: 'payment',
-      // TODO: save stripe ID to user account.
-      // payment_intent_data: {
-      //   transfer_data: {
-      //     destination: 'account.id',
-      //   },
-      // },
       success_url: `${process.env.CLIENT_DOMAIN}/checkout-success`,
       cancel_url: `${process.env.CLIENT_DOMAIN}/checkout-cancel`,
     });
   },
   getAccountById(accountId) {
     return stripe.accounts.retrieve(accountId);
+  },
+  // eslint-disable-next-line camelcase
+  createTransfer({ amount, currency, source_transaction, destination }) {
+    const transfer = stripe.transfers.create({
+      amount,
+      currency,
+      // eslint-disable-next-line camelcase
+      source_transaction,
+      destination,
+    });
+
+    return transfer;
+  },
+  getLineItemsBySessionId(sessionId) {
+    return stripe.checkout.sessions.listLineItems(sessionId, {
+      expand: ['data.price.product'],
+    });
+  },
+  createConstructorEvt({ sig, payload }) {
+    return stripe.webhooks.constructEvent(
+      payload,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  },
+  getPaymentIntentById(id) {
+    return stripe.paymentIntents.retrieve(id);
+  },
+  balance() {
+    return stripe.balance.retrieve();
   },
 };

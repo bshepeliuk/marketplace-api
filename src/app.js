@@ -16,7 +16,7 @@ import ratingRoutes from './routes/ratingRoute';
 import cartRoutes from './routes/cartRoute';
 import deviceImageRoutes from './routes/deviceImageRoute';
 import filtersRoute from './routes/filtersRoute';
-import paymentRoutes from './routes/paymentRoute';
+import stripePaymentRoute from './routes/stripePaymentRoute';
 
 function buildApp(opts = {}) {
   const app = fastify(opts);
@@ -36,7 +36,7 @@ function buildApp(opts = {}) {
   app.register(cartRoutes);
   app.register(deviceImageRoutes);
   app.register(filtersRoute);
-  app.register(paymentRoutes);
+  app.register(stripePaymentRoute);
 
   app.setErrorHandler(errorHandler);
 

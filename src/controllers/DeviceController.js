@@ -3,6 +3,7 @@ import parseDeviceFeatures from '../utils/parseDeviceFeatures';
 
 export const add = async (req, res) => {
   const { name, price, brandId, typeId, quantity } = req.body;
+  const { userId } = req.session.current;
 
   const device = await DeviceService.create({
     name,
@@ -10,6 +11,7 @@ export const add = async (req, res) => {
     brandId,
     typeId,
     quantity,
+    userId,
   });
 
   res.status(200).send({ device });

@@ -1,6 +1,6 @@
 import models from '../database';
 
-export const StripeService = {
+export const StripeModelService = {
   create({ userId, accountId }) {
     return models.Stripe.create({
       userId,

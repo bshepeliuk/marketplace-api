@@ -8,6 +8,7 @@ export default {
       'Users',
       [
         {
+          id: 1,
           fullName: 'John Wick',
           email: 'john@wick.io',
           role: 'SELLER',
@@ -16,6 +17,7 @@ export default {
           updatedAt: new Date(),
         },
         {
+          id: 2,
           fullName: 'Tony Start',
           email: 'tony@stark.io',
           role: 'SELLER',
@@ -24,6 +26,7 @@ export default {
           updatedAt: new Date(),
         },
         {
+          id: 3,
           fullName: 'Leam Neeson',
           email: 'leam@neeson.io',
           role: 'BUYER',

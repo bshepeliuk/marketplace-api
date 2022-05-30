@@ -1,11 +1,12 @@
 import PasswordService from '../services/PasswordService';
 import { StripeApiService } from '../services/StripeApiService';
-import { StripeService } from '../services/StripeService';
+import { StripeModelService } from '../services/StripeModelService';
 import UserService from '../services/UserService';
 import { ApiError, BadRequestApiError } from '../utils/ApiErrors';
 import attachUserPropsToSession from '../utils/attachUserPropsToSession';
 import { isItProductionMode } from '../utils/checkEnvMode';
 import destroyAuthSession from '../utils/destroyAuthSession';
+import getStripeAccountByUserId from '../utils/getStripeAccountInfo';
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -24,20 +25,7 @@ export const login = async (req, res) => {
 
   attachUserPropsToSession(user, req.session);
 
-  const acc = await StripeService.findAccountByUserId(user.id);
-
-  let stripeAccount = null;
-
-  if (acc) {
-    // capabilities: { card_payments: 'active', transfers: 'active' },
-    // details_submitted: true - active
-    const account = await StripeApiService.getAccountById(acc.accountId);
-
-    stripeAccount = {
-      id: acc.accountId,
-      isActive: account.details_submitted,
-    };
-  }
+  const stripeAccount = await getStripeAccountByUserId(user.id);
 
   res.status(200).send({ user, stripeAccount });
 };
@@ -60,11 +48,11 @@ export const register = async (req, res) => {
   });
 
   const account = await StripeApiService.createAccount({ type: 'express' });
-  const stripeAccount = await StripeService.create({
+
+  StripeModelService.create({
     userId: user.id,
     accountId: account.id,
   });
-
   // TODO: get user object without password field
   res.status(200).send({
     user: {
@@ -72,7 +60,6 @@ export const register = async (req, res) => {
       fullName: user.fullName,
       role: user.role,
     },
-    stripeAccountId: stripeAccount.accountId,
   });
 };
 

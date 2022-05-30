@@ -44,6 +44,7 @@ describe('Device API', () => {
           price: 30_000,
           brandId: brand.id,
           typeId: type.id,
+          userId: user.id,
           quantity: 56,
         },
       });
