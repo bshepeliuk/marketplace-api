@@ -3,6 +3,7 @@ import { StripeApiService } from '../services/StripeApiService';
 import { StripeModelService } from '../services/StripeModelService';
 import transferPaymentsToSellersBySession from '../utils/transferPaymentsToSellersBySession';
 import { UserService } from '../services/UserService';
+import getStripeAccountByUserId from '../utils/getStripeAccountInfo';
 
 export const createCheckoutSession = async (req, res) => {
   const { items, customer } = req.body.parsed;
@@ -56,4 +57,13 @@ export const stripeWebHook = async (request, res) => {
   }
 
   res.status(200).send();
+};
+
+export const getSellerBalance = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const account = await getStripeAccountByUserId(userId);
+  const balance = await StripeApiService.getBalanceByAccountId(account.id);
+
+  res.status(200).send({ balance });
 };

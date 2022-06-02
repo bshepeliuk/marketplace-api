@@ -10,6 +10,14 @@ const stripeWebHookOptions = {
   handler: StripePaymentController.stripeWebHook,
 };
 
+const stripeBalanceOptions = {
+  handler: StripePaymentController.getSellerBalance,
+  preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
+};
+
 const paymentRoutes = async (fastify) => {
   fastify.post('/api/create-checkout-session', checkoutSessionOptions);
   fastify.post('/api/onboard-user', {
@@ -35,6 +43,7 @@ const paymentRoutes = async (fastify) => {
   );
 
   fastify.post('/api/webhook', stripeWebHookOptions);
+  fastify.get('/api/balance', stripeBalanceOptions);
 };
 
 export default paymentRoutes;

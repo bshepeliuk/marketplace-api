@@ -7,11 +7,13 @@ const getStripeAccountByUserId = async (userId) => {
   let stripeAccount = null;
 
   if (accountFromDB !== null) {
-    const account = await StripeApiService.getAccountById(
-      accountFromDB.accountId
-    );
+    const [account, balance] = await Promise.all([
+      StripeApiService.getAccountById(accountFromDB.accountId),
+      StripeApiService.getBalanceByAccountId(accountFromDB.accountId),
+    ]);
 
     stripeAccount = {
+      balance,
       id: account.id,
       isActive: account.details_submitted,
     };

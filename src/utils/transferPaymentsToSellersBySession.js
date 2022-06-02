@@ -16,7 +16,7 @@ async function transferPaymentsToSellersBySession(session) {
     StripeApiService.createTransfer({
       amount: item.amount_total,
       currency: 'usd',
-      source_transaction: chargedId,
+      sourceTransaction: chargedId,
       destination: account.accountId,
     });
   }

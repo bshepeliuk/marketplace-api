@@ -20,6 +20,14 @@ export const UserAccountSchema = {
           properties: {
             id: { type: 'string' },
             isActive: { type: 'boolean' },
+            balance: {
+              type: 'object',
+              properties: {
+                available: { type: 'array' },
+                pending: { type: 'array' },
+                instant_available: { type: 'array' },
+              },
+            },
           },
         },
       },

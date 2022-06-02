@@ -33,14 +33,12 @@ export const StripeApiService = {
   getAccountById(accountId) {
     return stripe.accounts.retrieve(accountId);
   },
-  // eslint-disable-next-line camelcase
-  createTransfer({ amount, currency, source_transaction, destination }) {
+  createTransfer({ amount, currency, sourceTransaction, destination }) {
     const transfer = stripe.transfers.create({
       amount,
       currency,
-      // eslint-disable-next-line camelcase
-      source_transaction,
       destination,
+      source_transaction: sourceTransaction,
     });
 
     return transfer;
@@ -60,7 +58,9 @@ export const StripeApiService = {
   getPaymentIntentById(id) {
     return stripe.paymentIntents.retrieve(id);
   },
-  balance() {
-    return stripe.balance.retrieve();
+  getBalanceByAccountId(accountId) {
+    return stripe.balance.retrieve({
+      stripeAccount: accountId,
+    });
   },
 };
