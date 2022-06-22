@@ -73,7 +73,7 @@ describe('Auth API', () => {
 
     test('when user with the same EMAIL already exists', async () => {
       const res = await fakeAuthRequest.register({
-        email: 'tony@stark.io',
+        email: 'tony_correct@stark.io',
         fullName: 'Tony Stark',
         role: 'BUYER',
         password: '1111',
