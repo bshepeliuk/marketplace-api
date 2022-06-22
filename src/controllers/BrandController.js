@@ -9,7 +9,13 @@ export const add = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const brands = await BrandService.findAll();
+  const { name } = req.query;
+
+  const filters = {
+    name,
+  };
+
+  const brands = await BrandService.findAll(filters);
 
   res.status(200).send({ brands });
 };
@@ -17,7 +23,7 @@ export const getAll = async (req, res) => {
 export const deleteById = async (req, res) => {
   const { brandId } = req.params;
 
-  await BrandService.destroyById(brandId);
+  BrandService.destroyById(brandId);
 
   res.status(200).send({ message: 'Brand deleted successfully!!!' });
 };

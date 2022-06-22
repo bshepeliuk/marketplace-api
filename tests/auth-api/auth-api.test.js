@@ -61,18 +61,14 @@ describe('Auth API', () => {
     });
 
     test('when all registration fields is correct', async () => {
-      try {
-        const res = await fakeAuthRequest.register({
-          email: 'tony@stark.io',
-          fullName: 'Tony Stark',
-          role: 'BUYER',
-          password: '1111',
-        });
+      const res = await fakeAuthRequest.register({
+        email: 'tony_correct@stark.io',
+        fullName: 'Tony Stark',
+        role: 'BUYER',
+        password: '1111',
+      });
 
-        expect(res.statusCode).toBe(200);
-      } catch (error) {
-        console.log({ error });
-      }
+      expect(res.statusCode).toBe(200);
     });
 
     test('when user with the same EMAIL already exists', async () => {
@@ -120,8 +116,15 @@ describe('Auth API', () => {
     });
 
     test('login with correct credentials.', async () => {
+      await fakeAuthRequest.register({
+        email: 'new@stark.io',
+        fullName: 'Tony Stark',
+        role: 'BUYER',
+        password: '1111',
+      });
+
       const res = await fakeAuthRequest.login({
-        email: 'tony@stark.io',
+        email: 'new@stark.io',
         password: '1111',
       });
 
@@ -138,7 +141,7 @@ describe('Auth API', () => {
 
     test('when authorized user tries to logout.', async () => {
       const loggedInUser = await fakeAuthRequest.login({
-        email: 'tony@stark.io',
+        email: 'new@stark.io',
         password: '1111',
       });
       const cookie = loggedInUser.headers['set-cookie'];

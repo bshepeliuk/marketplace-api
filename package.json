@@ -11,7 +11,8 @@
     "test": "NODE_ENV=test jest --verbose ./tests --detectOpenHandles --forceExit",
     "migrate": "sequelize db:migrate",
     "db:create": "sequelize db:create",
-    "db:drop": "sequelize db:drop"
+    "db:drop": "sequelize db:drop",
+    "db:reload": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "dependencies": {
     "@babel/runtime": "^7.16.3",
