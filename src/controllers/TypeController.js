@@ -9,7 +9,13 @@ export const add = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const types = await TypeService.findAll();
+  const { name } = req.query;
+
+  const filters = {
+    name,
+  };
+
+  const types = await TypeService.findAll(filters);
 
   res.status(200).send({ types });
 };
