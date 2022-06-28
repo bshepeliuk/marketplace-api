@@ -4,8 +4,10 @@ import * as validation from '../validations/DeviceSchema';
 
 const addDeviceOptions = {
   handler: DeviceController.add,
-  schema: validation.addDeviceSchema,
   preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
 };
 
 const getAllDevicesOptions = {

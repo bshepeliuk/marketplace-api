@@ -3,13 +3,14 @@ import models from '../database';
 import DeviceInfoService from './DeviceInfoService';
 
 const DeviceService = {
-  create({ name, price, brandId, typeId, quantity }) {
+  create({ name, price, brandId, typeId, quantity, userId }) {
     return models.Device.create({
       name,
       price,
       brandId,
       typeId,
       quantity,
+      userId,
     });
   },
   async findAll({

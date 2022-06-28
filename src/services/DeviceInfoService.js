@@ -26,6 +26,14 @@ const DeviceInfoService = {
       where: values ? { [Op.or]: [{ description: values }] } : undefined,
     }).then((details) => details.map((item) => item.deviceId));
   },
+  create({ title, typeId, description, deviceId }) {
+    return models.DeviceInfo.create({
+      deviceId,
+      title,
+      description,
+      typeId,
+    });
+  },
 };
 
 export default DeviceInfoService;

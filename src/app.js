@@ -2,6 +2,7 @@ import fastify from 'fastify';
 import FormBody from 'fastify-formbody';
 import Swagger from 'fastify-swagger';
 import FastifyCors from 'fastify-cors';
+import fastifyMultipart from '@fastify/multipart';
 import connectToPostgreSQL from './plugins/connectToPostgreSQL';
 import setupRedisSession from './plugins/setupRedisSession';
 import { SWAGGER_OPTIONS } from './config/options';
@@ -25,6 +26,7 @@ function buildApp(opts = {}) {
   app.register(setupRedisSession);
   app.register(connectToPostgreSQL);
   app.register(Swagger, SWAGGER_OPTIONS);
+  app.register(fastifyMultipart, { attachFieldsToBody: true });
   app.register(FastifyCors, { origin: true, credentials: true });
   // routes
   app.register(authRoutes);
