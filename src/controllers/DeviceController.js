@@ -47,12 +47,14 @@ export const getAll = async (req, res) => {
     features,
     minPrice,
     maxPrice,
+    name,
     categoryId: typeId,
   } = req.query;
 
   const filters = {
     minPrice,
     maxPrice,
+    name,
     features: parseDeviceFeatures(features),
   };
 

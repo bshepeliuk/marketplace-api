@@ -17,7 +17,7 @@ const DeviceService = {
     limit = 20,
     offset = 0,
     typeId,
-    filters: { features, minPrice, maxPrice },
+    filters: { features, minPrice, maxPrice, name },
   }) {
     const where = {};
 
@@ -37,10 +37,19 @@ const DeviceService = {
       };
     }
 
+    if (name !== undefined) {
+      where.name = sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('name')),
+        'LIKE',
+        `%${name.toLowerCase()}%`
+      );
+    }
+
     return models.Device.findAndCountAll({
       offset,
       limit,
       where,
+      distinct: true,
       order: [['id', 'ASC']], // TODO: temp, ony for client tests
       include: [
         {
