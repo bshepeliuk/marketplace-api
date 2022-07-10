@@ -27,6 +27,18 @@ export const DeviceDetailsSchema = {
       },
     },
   },
+  ratings: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'number' },
+        userId: { type: 'number' },
+        deviceId: { type: 'number' },
+        rate: { type: 'number' },
+      },
+    },
+  },
 };
 
 export const addDeviceSchema = {

@@ -6,6 +6,7 @@ import {
   generateBrandsDataByNames,
   generateDeviceDetails,
   generateDevicesWithFullInfo,
+  generateRandomRatingByDeviceIds,
   generateTypesDataByNames,
   getAllDevicesByTypeId,
   matchNameToId,
@@ -92,4 +93,15 @@ const deviceDetails = generateDeviceDetails({
   ],
 });
 
-export { devices, deviceImages, deviceBrands, deviceTypes, deviceDetails };
+const deviceIds = devices.map((i) => i.id);
+
+const ratings = generateRandomRatingByDeviceIds(deviceIds);
+
+export {
+  devices,
+  ratings,
+  deviceImages,
+  deviceBrands,
+  deviceTypes,
+  deviceDetails,
+};

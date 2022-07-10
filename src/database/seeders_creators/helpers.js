@@ -167,3 +167,21 @@ export const generateDeviceDetails = ({ deviceIds, typeId, details }) => {
 
   return result;
 };
+
+export const generateRandomRatingByDeviceIds = (deviceIds) => {
+  const userIds = [1, 2, 3];
+
+  const date = generateRandomDate({
+    start: new Date(2021, 0, 1),
+    end: new Date(),
+  });
+
+  return deviceIds.map((deviceId, idx) => ({
+    deviceId,
+    userId: getRandomFromList(userIds),
+    id: idx + 1,
+    rate: generateRandomInteger({ min: 0, max: 5 }),
+    createdAt: date,
+    updatedAt: date,
+  }));
+};
