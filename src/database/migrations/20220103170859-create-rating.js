@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       rate: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
       },
       deviceId: {
         type: Sequelize.INTEGER,

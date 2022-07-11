@@ -1,9 +1,14 @@
 import RatingService from '../services/RatingService';
 
 export const add = async (req, res) => {
-  const { rate, userId, deviceId } = req.body;
+  const { userId } = req.session.current;
+  const { rating, deviceId } = req.body;
 
-  const rating = await RatingService.create({ rate, userId, deviceId });
+  const addedRating = await RatingService.create({
+    userId,
+    deviceId,
+    rate: rating,
+  });
 
-  res.status(200).send({ rating });
+  res.status(200).send({ rating: addedRating });
 };

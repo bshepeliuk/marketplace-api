@@ -33,9 +33,8 @@ describe('Rating API', () => {
     const res = await fakeRatingRequest.addRatingForDevice({
       cookie: sessionCookies,
       body: {
-        rate: 5,
+        rating: 5,
         deviceId: device.id,
-        userId: user.id,
       },
     });
 
@@ -45,9 +44,8 @@ describe('Rating API', () => {
   test('when user tries to add rating for device without session cookies, should return 401.', async () => {
     const res = await fakeRatingRequest.addRatingForDevice({
       body: {
-        rate: 5,
+        rating: 5,
         deviceId: device.id,
-        userId: user.id,
       },
     });
 

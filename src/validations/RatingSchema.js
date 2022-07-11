@@ -3,7 +3,7 @@ import { VALIDATION_SCHEMA_ERRORS } from './schema_errors';
 export const addRatingForDeviceSchema = {
   body: {
     type: 'object',
-    required: ['rate', 'userId', 'deviceId'],
+    required: ['rating', 'deviceId'],
     properties: {
       rate: { type: 'number' },
       userId: { type: 'number' },
@@ -17,6 +17,7 @@ export const addRatingForDeviceSchema = {
         rating: {
           type: 'object',
           properties: {
+            id: { type: 'number' },
             rate: { type: 'number' },
             userId: { type: 'number' },
             deviceId: { type: 'number' },
