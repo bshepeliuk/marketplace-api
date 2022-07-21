@@ -3,3 +3,9 @@
 - Stripe Dev WebHooks
 
 `stripe listen --forward-to localhost:3000/api/webhook`
+
+- Sequelize CLI
+
+1. create a new model
+
+`sequelize model:create --name MyModel --attributes first_name:string,last_name:string,bio:text`

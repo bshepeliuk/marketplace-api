@@ -15,6 +15,7 @@ import DeviceImage from './models/DeviceImage';
 import Order from './models/Order';
 import OrderItem from './models/OrderItem';
 import StripeModel from './models/Stripe';
+import Comments from './models/Comments';
 
 const sequelizeInstance = {
   development: () => new Sequelize(DATABASE_CONFIG.development),
@@ -40,6 +41,7 @@ const models = {
   Order: Order(sequelize, Sequelize.DataTypes),
   OrderItem: OrderItem(sequelize, Sequelize.DataTypes),
   Stripe: StripeModel(sequelize, Sequelize.DataTypes),
+  Comments: Comments(sequelize, Sequelize.DataTypes),
 };
 
 Object.keys(models).forEach((key) => {

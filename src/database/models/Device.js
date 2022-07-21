@@ -11,6 +11,10 @@ const Device = (sequelize, DataTypes) => {
         as: 'images',
       });
       Device.hasMany(models.OrderItem, { foreignKey: 'deviceId' });
+      Device.hasMany(models.Comments, {
+        foreignKey: 'deviceId',
+        as: 'comments',
+      });
 
       Device.belongsTo(models.Brand, { foreignKey: 'brandId' });
       Device.belongsTo(models.Type, { foreignKey: 'typeId' });

@@ -180,7 +180,7 @@ export const generateRandomRatingByDeviceIds = (deviceIds) => {
     deviceId,
     userId: getRandomFromList(userIds),
     id: idx + 1,
-    rate: generateRandomInteger({ min: 0, max: 5 }),
+    rate: generateRandomInteger({ min: 1, max: 5 }),
     createdAt: date,
     updatedAt: date,
   }));
