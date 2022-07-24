@@ -11,9 +11,21 @@ const getCommentsOptions = {
   preHandler: authGate,
 };
 
+const updateCommentOptions = {
+  handler: CommentsController.updateComment,
+  preHandler: authGate,
+};
+
+const deleteCommentOptions = {
+  handler: CommentsController.deleteComment,
+  preHandler: authGate,
+};
+
 const commentRoutes = async (fastify) => {
-  fastify.post('/api/comments', addCommentOptions);
   fastify.get('/api/comments/:deviceId', getCommentsOptions);
+  fastify.post('/api/comments', addCommentOptions);
+  fastify.patch('/api/comments', updateCommentOptions);
+  fastify.delete('/api/comments/:commentId', deleteCommentOptions);
 };
 
 export default commentRoutes;

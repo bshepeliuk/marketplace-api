@@ -65,6 +65,10 @@ const DeviceService = {
           model: models.DeviceImage,
           as: 'images',
         },
+        {
+          model: models.Comments,
+          as: 'comments',
+        },
       ],
     });
   },
@@ -83,6 +87,10 @@ const DeviceService = {
         {
           model: models.DeviceImage,
           as: 'images',
+        },
+        {
+          model: models.Comments,
+          as: 'comments',
         },
       ],
     });

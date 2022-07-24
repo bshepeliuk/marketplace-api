@@ -39,6 +39,23 @@ export const DeviceDetailsSchema = {
       },
     },
   },
+  comments: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        id: { type: 'number' },
+        fullName: { type: 'string' },
+        deviceId: { type: 'number' },
+        body: { type: 'string' },
+        parentId: {
+          type: ['number', 'null'],
+        },
+        createdAt: { type: 'string' },
+        updatedAt: { type: 'string' },
+      },
+    },
+  },
 };
 
 export const addDeviceSchema = {
