@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import models from '../database';
 
 const CommentsService = {
@@ -18,7 +19,11 @@ const CommentsService = {
     );
   },
   deleteById(commentId) {
-    return models.Comments.destroy({ where: { id: commentId } });
+    return models.Comments.destroy({
+      where: {
+        [Op.or]: [{ id: commentId }, { parentId: commentId }],
+      },
+    });
   },
 };
 
