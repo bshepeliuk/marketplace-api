@@ -51,6 +51,7 @@ export const DeviceDetailsSchema = {
         parentId: {
           type: ['number', 'null'],
         },
+        repliesCount: { type: ['number'] },
         createdAt: { type: 'string' },
         updatedAt: { type: 'string' },
       },

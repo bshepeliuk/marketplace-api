@@ -1,29 +1,17 @@
-import { Op } from 'sequelize';
-import models from '../database';
+import CommentRepository from '../repositories/CommentRepository';
 
 const CommentsService = {
   create({ parentId = null, body, fullName, deviceId }) {
-    return models.Comments.create({ body, fullName, parentId, deviceId });
+    return CommentRepository.create({ body, fullName, parentId, deviceId });
   },
   findAllByDeviceId(deviceId) {
-    return models.Comments.findAll({ where: { deviceId } });
+    return CommentRepository.findWithRepliesCountByDeviceId({ deviceId });
   },
   updateById({ commentId, body }) {
-    return models.Comments.update(
-      { body },
-      {
-        where: { id: commentId },
-        returning: true,
-        plain: true,
-      }
-    );
+    return CommentRepository.updateById({ commentId, body });
   },
   deleteById(commentId) {
-    return models.Comments.destroy({
-      where: {
-        [Op.or]: [{ id: commentId }, { parentId: commentId }],
-      },
-    });
+    return CommentRepository.destroyById(commentId);
   },
 };
 

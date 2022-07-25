@@ -1,10 +1,10 @@
 import sequelize, { Op } from 'sequelize';
-import models from '../database';
+import DeviceRepository from '../repositories/DeviceRepository';
 import DeviceInfoService from './DeviceInfoService';
 
 const DeviceService = {
   create({ name, price, brandId, typeId, quantity, userId }) {
-    return models.Device.create({
+    return DeviceRepository.create({
       name,
       price,
       brandId,
@@ -27,9 +27,17 @@ const DeviceService = {
 
     if (hasNoDeviceByFeatures) return [];
 
-    if (deviceIds.length > 0) where.id = deviceIds;
+    if (deviceIds.length > 0) {
+      where.id = deviceIds;
+    }
 
     if (typeId) where.typeId = typeId;
+
+    if (minPrice && maxPrice) {
+      where.price = {
+        [Op.between]: [+minPrice, +maxPrice],
+      };
+    }
 
     if (minPrice && maxPrice) {
       where.price = {
@@ -45,72 +53,18 @@ const DeviceService = {
       );
     }
 
-    return models.Device.findAndCountAll({
-      offset,
-      limit,
-      where,
-      distinct: true,
-      order: [['id', 'ASC']], // TODO: temp, ony for client tests
-      include: [
-        {
-          model: models.DeviceInfo,
-          as: 'info',
-        },
-
-        {
-          model: models.Rating,
-          as: 'ratings',
-        },
-        {
-          model: models.DeviceImage,
-          as: 'images',
-        },
-        {
-          model: models.Comments,
-          as: 'comments',
-        },
-      ],
-    });
+    return DeviceRepository.findAll({ offset, limit, where });
   },
   findOneById(deviceId) {
-    return models.Device.findOne({
-      where: { id: deviceId },
-      include: [
-        {
-          model: models.DeviceInfo,
-          as: 'info',
-        },
-        {
-          model: models.Rating,
-          as: 'ratings',
-        },
-        {
-          model: models.DeviceImage,
-          as: 'images',
-        },
-        {
-          model: models.Comments,
-          as: 'comments',
-        },
-      ],
-    });
+    return DeviceRepository.findOneById(deviceId);
   },
   async getMaxAndMinPricesByTypeId(typeId) {
     if (!typeId) return null;
-
-    const prices = await models.Device.findAll({
-      where: { typeId },
-      attributes: [
-        [sequelize.fn('min', sequelize.col('price')), 'min'],
-        [sequelize.fn('max', sequelize.col('price')), 'max'],
-      ],
-    });
-
-    return prices[0];
+    return DeviceRepository.getMaxAndMinPricesByTypeId(typeId);
   },
 
   destroyById(deviceId) {
-    return models.Device.destroy({ where: { id: deviceId } });
+    return DeviceRepository.destroyById(deviceId);
   },
 };
 
