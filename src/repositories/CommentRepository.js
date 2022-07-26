@@ -25,8 +25,14 @@ const CommentRepository = {
       },
     });
   },
-
-  async findWithRepliesCountByDeviceId({ deviceId, limit = 20, offset = 0 }) {
+  findRepliesByCommentId({ commentId, limit = 20, offset = 0 }) {
+    return models.Comments.findAll({
+      limit,
+      offset,
+      where: { parentId: commentId },
+    });
+  },
+  async getWithRepliesCountByDeviceId({ deviceId, limit = 20, offset = 0 }) {
     const comments = await models.Comments.findAll({
       limit,
       offset,
