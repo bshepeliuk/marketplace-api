@@ -20,8 +20,13 @@ export const add = async (req, res) => {
 
 export const getAllByDeviceId = async (req, res) => {
   const { deviceId } = req.params;
+  const { offset, limit } = req.query;
 
-  const comments = await CommentsService.findAllByDeviceId(deviceId);
+  const comments = await CommentsService.findAllByDeviceId({
+    deviceId,
+    offset,
+    limit,
+  });
 
   res.status(200).send({ comments });
 };
@@ -42,7 +47,7 @@ export const getRepliesByCommentId = async (req, res) => {
 export const updateComment = async (req, res) => {
   const { body, commentId } = req.body;
 
-  const [_, comment] = await CommentsService.updateById({ commentId, body });
+  const comment = await CommentsService.updateById({ commentId, body });
 
   res.status(200).send({ comment });
 };

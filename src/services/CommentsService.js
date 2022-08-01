@@ -4,8 +4,12 @@ const CommentsService = {
   create({ parentId = null, body, fullName, deviceId }) {
     return CommentRepository.create({ body, fullName, parentId, deviceId });
   },
-  findAllByDeviceId(deviceId) {
-    return CommentRepository.getWithRepliesCountByDeviceId({ deviceId });
+  findAllByDeviceId({ deviceId, offset, limit }) {
+    return CommentRepository.getWithRepliesCountByDeviceId({
+      deviceId,
+      offset,
+      limit,
+    });
   },
   updateById({ commentId, body }) {
     return CommentRepository.updateById({ commentId, body });

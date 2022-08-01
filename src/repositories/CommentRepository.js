@@ -6,7 +6,10 @@ const CommentRepository = {
     return models.Comments.create({ body, fullName, parentId, deviceId });
   },
   findByDeviceId({ deviceId }) {
-    return models.Comments.findAll({ where: { deviceId } });
+    return models.Comments.findAll({
+      where: { deviceId },
+      order: [['createdAt', 'DESC']],
+    });
   },
   updateById({ commentId, body }) {
     return models.Comments.update(
@@ -16,7 +19,7 @@ const CommentRepository = {
         returning: true,
         plain: true,
       }
-    );
+    ).then(([_, comment]) => comment);
   },
   destroyById(commentId) {
     return models.Comments.destroy({
