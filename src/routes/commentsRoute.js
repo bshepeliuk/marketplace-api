@@ -8,7 +8,6 @@ const addCommentOptions = {
 
 const getCommentsOptions = {
   handler: CommentsController.getAllByDeviceId,
-  preHandler: authGate,
 };
 
 const updateCommentOptions = {
@@ -23,7 +22,6 @@ const deleteCommentOptions = {
 
 const getRepliesOptions = {
   handler: CommentsController.getRepliesByCommentId,
-  preHandler: authGate,
 };
 
 const commentRoutes = async (fastify) => {
