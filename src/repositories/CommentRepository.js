@@ -33,6 +33,7 @@ const CommentRepository = {
       limit,
       offset,
       where: { parentId: commentId },
+      order: [['createdAt', 'ASC']],
     });
   },
   async getWithRepliesCountByDeviceId({ deviceId, limit = 20, offset = 0 }) {
@@ -42,6 +43,7 @@ const CommentRepository = {
       where: { parentId: null, deviceId },
       nest: true,
       raw: true,
+      order: [['createdAt', 'ASC']],
     });
 
     const commentWithRepliesCount = comments.map((comment) => {

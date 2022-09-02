@@ -2,7 +2,7 @@ import { StripeEvents } from '../constants';
 import { StripeApiService } from '../services/StripeApiService';
 import { StripeModelService } from '../services/StripeModelService';
 import transferPaymentsToSellersBySession from '../utils/transferPaymentsToSellersBySession';
-import { UserService } from '../services/UserService';
+import UserService from '../services/UserService';
 import getStripeAccountByUserId from '../utils/getStripeAccountInfo';
 
 export const createCheckoutSession = async (req, res) => {
