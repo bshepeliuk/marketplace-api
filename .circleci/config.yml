@@ -80,6 +80,15 @@ commands:
           command: |
             heroku container:push web -a $HEROKU_APP_NAME
             heroku container:release web -a $HEROKU_APP_NAME
+  run_deploy_to_railway:
+    description: Install Railway CLI and deploy app.
+    steps:
+      - run:
+          name: Install Railway CLI
+          command: npm install -g @railway/cli
+      - run:
+          name: Deploy app.
+          command: RAILWAY_TOKEN=$RAILWAY_TOKEN railway up
 
 jobs:
   build:
@@ -103,6 +112,7 @@ jobs:
       - setup_remote_docker
       - run_setup_heroku
       - run_deploy_to_heroku
+      - run_deploy_to_railway
 
 workflows:
   version: 2.1
