@@ -1,7 +1,7 @@
 import { isItProductionMode } from './checkEnvMode';
 
 function getRedisSessionOptions(RedisInstance) {
-  const SESSION_TTL = 60 * 1000;
+  const SESSION_TTL = 24 * 60 * 60 * 1000;
 
   const sessionOptions = {
     store: new RedisInstance.storage({
