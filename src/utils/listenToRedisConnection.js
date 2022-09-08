@@ -5,8 +5,9 @@ function listenToRedisConnection(instance) {
     pinoLogger.info('Connected to Redis successfully');
   });
 
-  instance.client.on('error', (err) => {
+  instance.client.on('error', (error) => {
     pinoLogger.error('Could not establish a connection with redis. ');
+    pinoLogger.error(error.message);
   });
 }
 
