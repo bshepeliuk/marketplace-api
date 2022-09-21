@@ -1,7 +1,7 @@
 import PasswordService from '../../services/PasswordService';
 
 export default {
-  up: async (queryInterface, Sequelize) => {
+  up: async (queryInterface) => {
     const hashedPassword = await PasswordService.hash('1234');
 
     const users = [
@@ -16,7 +16,7 @@ export default {
       },
       {
         id: 2,
-        fullName: 'Tony Start',
+        fullName: 'Tony Stark',
         email: 'tony@stark.io',
         role: 'SELLER',
         password: hashedPassword,
@@ -32,6 +32,15 @@ export default {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: 4,
+        fullName: 'Albus Dambldor',
+        email: 'albus@dambldor.io',
+        role: 'SELLER',
+        password: hashedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ];
 
     await queryInterface.bulkInsert('Users', users, {});
@@ -41,7 +50,7 @@ export default {
     );
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.bulkDelete('Users', null, {});
   },
 };

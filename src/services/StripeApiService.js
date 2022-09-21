@@ -15,7 +15,7 @@ export const StripeApiService = {
       type: 'account_onboarding',
       account: accountId,
       refresh_url: `${BACKEND_DOMAIN}/api/onboard-user/refresh`,
-      return_url: `${process.env.CLIENT_DOMAIN}/checkout-cancel`,
+      return_url: `${process.env.CLIENT_DOMAIN}/stripe-account-success`,
     });
   },
   createCheckoutSession({ lineItems, customer }) {
