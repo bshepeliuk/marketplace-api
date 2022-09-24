@@ -1,15 +1,17 @@
 import OrderService from '../services/OrderService';
 
-export const createOrder = async (req, res) => {
-  const { userId, status = 'PENDING' } = req.body;
+export const create = async (req, res) => {
+  const { userId, status } = req.body;
 
   const order = await OrderService.create({ userId, status });
 
   res.status(200).send({ order });
 };
 
-export const getAllOrders = async (req, res) => {
-  const orders = await OrderService.findAll();
+export const getAll = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const orders = await OrderService.findAllByUserId({ userId });
 
   res.status(200).send({ orders });
 };

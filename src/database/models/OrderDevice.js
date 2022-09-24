@@ -1,19 +1,25 @@
 import { Model } from 'sequelize';
 
-const Order = (sequelize, DataTypes) => {
-  class Order extends Model {
+const OrderDevice = (sequelize, DataTypes) => {
+  class OrderDevice extends Model {
     static associate(models) {
-      Order.belongsToMany(models.Device, {
+      OrderDevice.belongsTo(models.Order, {
         foreignKey: 'orderId',
-        through: 'OrderDevices',
+        as: 'orders',
+      });
+
+      OrderDevice.belongsTo(models.Device, {
+        foreignKey: 'deviceId',
         as: 'devices',
       });
     }
   }
 
-  Order.init(
+  OrderDevice.init(
     {
-      userId: DataTypes.INTEGER,
+      orderId: DataTypes.INTEGER,
+      deviceId: DataTypes.INTEGER,
+      quantity: DataTypes.INTEGER,
       status: {
         type: DataTypes.ENUM,
         values: [
@@ -30,19 +36,13 @@ const Order = (sequelize, DataTypes) => {
         ],
         allowNull: false,
       },
-      fullName: {
-        type: DataTypes.STRING,
-      },
-      phone: {
-        type: DataTypes.STRING,
-      },
     },
     {
       sequelize,
-      modelName: 'Order',
+      modelName: 'OrderDevice',
     }
   );
-  return Order;
+  return OrderDevice;
 };
 
-export default Order;
+export default OrderDevice;

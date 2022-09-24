@@ -4,6 +4,7 @@ import { StripeModelService } from '../services/StripeModelService';
 import transferPaymentsToSellersBySession from '../utils/transferPaymentsToSellersBySession';
 import UserService from '../services/UserService';
 import getStripeAccountByUserId from '../utils/getStripeAccountInfo';
+import createOrderByPaymentSession from '../utils/createOrderByPaymentSession';
 
 export const createCheckoutSession = async (req, res) => {
   const { items, customer } = req.body.parsed;
@@ -38,9 +39,9 @@ export const onBoardUser = async (req, res) => {
   res.status(200).send({ accountLink: accountLink.url });
 };
 
-export const stripeWebHook = async (request, res) => {
-  const payload = request.body.raw;
-  const sig = request.headers['stripe-signature'];
+export const stripeWebHook = async (req, res) => {
+  const payload = req.body.raw;
+  const sig = req.headers['stripe-signature'];
 
   let event;
 
@@ -53,6 +54,7 @@ export const stripeWebHook = async (request, res) => {
   switch (event.type) {
     case StripeEvents.checkoutSessionCompleted: {
       transferPaymentsToSellersBySession(event.data.object);
+      createOrderByPaymentSession(event.data.object);
     }
   }
 

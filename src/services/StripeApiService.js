@@ -22,11 +22,14 @@ export const StripeApiService = {
     return stripe.checkout.sessions.create({
       line_items: lineItems,
       customer_email: customer.email,
+      shipping_address_collection: {
+        allowed_countries: ['UA'],
+      },
       phone_number_collection: {
         enabled: true,
       },
       mode: 'payment',
-      success_url: `${process.env.CLIENT_DOMAIN}/checkout-success`,
+      success_url: `${process.env.CLIENT_DOMAIN}/purchases`,
       cancel_url: `${process.env.CLIENT_DOMAIN}/checkout-cancel`,
     });
   },

@@ -10,7 +10,7 @@ const Device = (sequelize, DataTypes) => {
         foreignKey: 'deviceId',
         as: 'images',
       });
-      Device.hasMany(models.OrderItem, { foreignKey: 'deviceId' });
+
       Device.hasMany(models.Comments, {
         foreignKey: 'deviceId',
         as: 'comments',
@@ -21,6 +21,12 @@ const Device = (sequelize, DataTypes) => {
       Device.belongsTo(models.User, {
         foreignKey: 'userId',
         as: 'devices',
+      });
+
+      Device.belongsToMany(models.Order, {
+        foreignKey: 'deviceId',
+        through: 'OrderDevices',
+        as: 'orders',
       });
     }
   }
