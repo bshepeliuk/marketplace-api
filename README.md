@@ -8,4 +8,4 @@
 
 1. create a new model
 
-`sequelize model:create --name MyModel --attributes first_name:string,last_name:string,bio:text`
+`sequelize model:create --name MyModel --attributes first_name:string,last_name:string`

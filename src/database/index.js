@@ -16,6 +16,7 @@ import Order from './models/Order';
 import StripeModel from './models/Stripe';
 import Comments from './models/Comments';
 import OrderDevice from './models/OrderDevice';
+import ShippingAddress from './models/ShippingAddress';
 
 const sequelizeInstance = {
   development: () => new Sequelize(DATABASE_CONFIG.development),
@@ -42,6 +43,7 @@ const models = {
   Stripe: StripeModel(sequelize, Sequelize.DataTypes),
   Comments: Comments(sequelize, Sequelize.DataTypes),
   OrderDevice: OrderDevice(sequelize, Sequelize.DataTypes),
+  ShippingAddress: ShippingAddress(sequelize, Sequelize.DataTypes),
 };
 
 Object.keys(models).forEach((key) => {

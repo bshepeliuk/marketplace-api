@@ -1,5 +1,6 @@
 import OrderService from '../services/OrderService';
 import { StripeApiService } from '../services/StripeApiService';
+import addShippingAddressByOrderId from './addShippingAddressByOrderId';
 
 async function createOrderByPaymentSession(session) {
   const lineItems = await StripeApiService.getLineItemsBySessionId(session.id);
@@ -9,9 +10,14 @@ async function createOrderByPaymentSession(session) {
     quantity: item.quantity,
   }));
 
-  const order = OrderService.createOrderByStripeSession({
+  const order = await OrderService.createOrderByStripeSession({
     session,
     orders,
+  });
+
+  addShippingAddressByOrderId({
+    orderId: order.id,
+    address: session.shipping.address,
   });
 
   return order;
