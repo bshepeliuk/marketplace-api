@@ -4,10 +4,8 @@ import models from '../database';
 
 const OrderService = {
   async createOrderByStripeSession({ orders, session }) {
-    // TODO: add shipping address to Order table.
     const order = await models.Order.create({
       userId: Number(orders[0].customerId),
-      status: ORDER_STATUS.paid,
       fullName: session.customer_details.name,
       phone: session.customer_details.phone,
     });
@@ -35,6 +33,7 @@ const OrderService = {
           as: 'orders',
           through: {
             model: models.OrderDevice,
+            as: 'orderDevice',
           },
           where: {
             id: {
@@ -44,6 +43,53 @@ const OrderService = {
         },
       ],
     });
+  },
+
+  async findAll({ userId, limit = 20, offset = 0 }) {
+    const devices = await this.findAllByUserId({ userId });
+    const deviceIds = devices.map((item) => item.id);
+
+    return models.Order.findAndCountAll({
+      limit,
+      offset,
+      distinct: true,
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: models.Device,
+          as: 'devices',
+          where: {
+            id: deviceIds,
+          },
+          include: [
+            {
+              model: models.DeviceInfo,
+              as: 'info',
+            },
+            {
+              model: models.Rating,
+              as: 'ratings',
+            },
+            {
+              model: models.DeviceImage,
+              as: 'images',
+            },
+          ],
+          through: {
+            model: models.OrderDevice,
+            as: 'orderDevice',
+          },
+        },
+        {
+          model: models.ShippingAddress,
+          as: 'address',
+        },
+      ],
+    });
+  },
+
+  changeOrderStatus({ id, status }) {
+    return models.OrderDevice.update({ status }, { where: { id } });
   },
 };
 

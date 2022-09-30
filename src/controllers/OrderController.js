@@ -9,9 +9,18 @@ export const create = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
+  const { offset, limit } = req.query;
   const { userId } = req.session.current;
 
-  const orders = await OrderService.findAllByUserId({ userId });
+  const { count, rows } = await OrderService.findAll({ userId, offset, limit });
+
+  res.status(200).send({ total: count, orders: rows });
+};
+
+export const changeOrderStatus = async (req, res) => {
+  const { id, status } = req.body;
+
+  const orders = await OrderService.changeOrderStatus({ id, status });
 
   res.status(200).send({ orders });
 };

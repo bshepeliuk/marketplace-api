@@ -1,8 +1,12 @@
 import models from '../database';
 
 const PurchaseService = {
-  findAllByUserId({ userId }) {
-    return models.Order.findAll({
+  findAllByUserId({ userId, limit = 20, offset = 0 }) {
+    return models.Order.findAndCountAll({
+      limit,
+      offset,
+      distinct: true,
+      order: [['updatedAt', 'DESC']],
       where: {
         userId,
       },
@@ -26,7 +30,7 @@ const PurchaseService = {
           ],
           through: {
             model: models.OrderDevice,
-            as: 'order',
+            as: 'orderDevice',
           },
         },
         {

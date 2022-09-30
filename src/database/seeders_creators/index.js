@@ -27,6 +27,10 @@ import {
   tablets,
   tabletsImages,
 } from './data';
+import createUsers from './createUsers';
+import createOrders from './createOrders';
+import createOrderDevices from './createOrderDevices';
+import createShippingAddresses from './createShippingAddresses';
 
 const deviceBrands = generateBrandsDataByNames(namesOfBrands);
 const deviceTypes = generateTypesDataByNames(namesOfTypes);
@@ -97,7 +101,23 @@ const deviceIds = devices.map((i) => i.id);
 
 const ratings = generateRandomRatingByDeviceIds(deviceIds);
 
+const users = createUsers();
+const orders = createOrders({
+  count: 60,
+  buyers: users.filter((user) => user.role === 'BUYER'),
+});
+const shippingAddresses = createShippingAddresses({ orders });
+const orderDevices = createOrderDevices({
+  orders,
+  devices: devices.slice(0, 40),
+  count: 2,
+});
+
 export {
+  users,
+  orders,
+  orderDevices,
+  shippingAddresses,
   devices,
   ratings,
   deviceImages,

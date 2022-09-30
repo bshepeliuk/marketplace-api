@@ -16,22 +16,6 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
-      status: {
-        type: Sequelize.ENUM,
-        values: [
-          'PROCESSING',
-          'IN PROGRESS',
-          'PAID',
-          'UNPAID',
-          'DELIVERED',
-          'SHIPPED',
-          'UNSHIPPED',
-          'REJECTED',
-          'COMPLETED',
-          'REFUNDED',
-        ],
-        allowNull: false,
-      },
       fullName: {
         type: Sequelize.STRING,
       },

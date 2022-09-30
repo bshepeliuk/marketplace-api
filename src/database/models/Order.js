@@ -18,22 +18,6 @@ const Order = (sequelize, DataTypes) => {
   Order.init(
     {
       userId: DataTypes.INTEGER,
-      status: {
-        type: DataTypes.ENUM,
-        values: [
-          'PROCESSING',
-          'IN PROGRESS',
-          'PAID',
-          'UNPAID',
-          'DELIVERED',
-          'SHIPPED',
-          'UNSHIPPED',
-          'REJECTED',
-          'COMPLETED',
-          'REFUNDED',
-        ],
-        allowNull: false,
-      },
       fullName: {
         type: DataTypes.STRING,
       },
