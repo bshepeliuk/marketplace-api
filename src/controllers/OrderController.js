@@ -1,4 +1,5 @@
 import OrderService from '../services/OrderService';
+import getOrderFilterOptionsFromQueries from '../utils/getOrderFilterOptionsFromQueries';
 
 export const create = async (req, res) => {
   const { userId, status } = req.body;
@@ -9,10 +10,22 @@ export const create = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const { offset, limit } = req.query;
+  const { offset, limit, status } = req.query;
   const { userId } = req.session.current;
 
-  const { count, rows } = await OrderService.findAll({ userId, offset, limit });
+  const order = getOrderFilterOptionsFromQueries(req.query);
+
+  const filters = {
+    order,
+    status,
+  };
+
+  const { count, rows } = await OrderService.findAll({
+    userId,
+    offset,
+    limit,
+    filters,
+  });
 
   res.status(200).send({ total: count, orders: rows });
 };

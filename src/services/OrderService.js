@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 import { ORDER_STATUS } from '../constants';
 import models from '../database';
 
@@ -45,13 +45,38 @@ const OrderService = {
     });
   },
 
-  async findAll({ userId, limit = 20, offset = 0 }) {
+  async findAll({ userId, limit = 20, offset = 0, filters }) {
     const devices = await this.findAllByUserId({ userId });
     const deviceIds = devices.map((item) => item.id);
 
+    let where = {};
+    const orderDeviceWhere = {};
+
+    if (filters.status !== undefined) {
+      orderDeviceWhere.status = {
+        [Op.or]: Array.isArray(filters.status)
+          ? filters.status
+          : [filters.status],
+      };
+    }
+
+    if (filters.order !== undefined) {
+      const entries = Object.entries(filters.order).map(([key, value]) => [
+        key,
+        sequelize.where(
+          sequelize.fn('LOWER', sequelize.col(key)),
+          'LIKE',
+          `%${value.toLowerCase()}%`
+        ),
+      ]);
+
+      where = Object.fromEntries(entries);
+    }
+    // TODO: create OrderRepository
     return models.Order.findAndCountAll({
       limit,
       offset,
+      where,
       distinct: true,
       order: [['createdAt', 'DESC']],
       include: [
@@ -78,6 +103,7 @@ const OrderService = {
           through: {
             model: models.OrderDevice,
             as: 'orderDevice',
+            where: orderDeviceWhere,
           },
         },
         {
