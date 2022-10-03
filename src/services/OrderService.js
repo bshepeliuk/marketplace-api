@@ -45,12 +45,24 @@ const OrderService = {
     });
   },
 
-  async findAll({ userId, limit = 20, offset = 0, filters }) {
+  async findAll({
+    userId,
+    limit = 20,
+    offset = 0,
+    filters,
+    sortDirection,
+    sortField,
+  }) {
     const devices = await this.findAllByUserId({ userId });
     const deviceIds = devices.map((item) => item.id);
 
     let where = {};
     const orderDeviceWhere = {};
+
+    let sorting =
+      sortField === undefined
+        ? [['createdAt', 'DESC']]
+        : [[sortField, sortDirection ?? 'DESC']];
 
     if (filters.status !== undefined) {
       orderDeviceWhere.status = {
@@ -61,24 +73,29 @@ const OrderService = {
     }
 
     if (filters.order !== undefined) {
-      const entries = Object.entries(filters.order).map(([key, value]) => [
-        key,
-        sequelize.where(
-          sequelize.fn('LOWER', sequelize.col(key)),
-          'LIKE',
-          `%${value.toLowerCase()}%`
-        ),
-      ]);
+      const entries = Object.entries(filters.order).map(([key, value]) => {
+        if (key === 'id') return [key, value];
+
+        return [
+          key,
+          sequelize.where(
+            sequelize.fn('LOWER', sequelize.col(`Order.${key}`)),
+            'LIKE',
+            `%${value.toLowerCase()}%`
+          ),
+        ];
+      });
 
       where = Object.fromEntries(entries);
     }
+
     // TODO: create OrderRepository
     return models.Order.findAndCountAll({
       limit,
       offset,
       where,
       distinct: true,
-      order: [['createdAt', 'DESC']],
+      order: sorting,
       include: [
         {
           model: models.Device,

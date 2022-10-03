@@ -10,7 +10,7 @@ export const create = async (req, res) => {
 };
 
 export const getAll = async (req, res) => {
-  const { offset, limit, status } = req.query;
+  const { offset, limit, status, sortDirection, sortField } = req.query;
   const { userId } = req.session.current;
 
   const order = getOrderFilterOptionsFromQueries(req.query);
@@ -25,6 +25,8 @@ export const getAll = async (req, res) => {
     offset,
     limit,
     filters,
+    sortDirection,
+    sortField,
   });
 
   res.status(200).send({ total: count, orders: rows });
