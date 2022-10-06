@@ -11,13 +11,13 @@ const PurchaseService = {
     sortField,
   }) {
     let where = { userId };
+    const orderDeviceWhere = {};
+    const deviceWhere = {};
 
     let sorting =
       sortField === undefined
         ? [['updatedAt', 'DESC']]
         : [[sortField, sortDirection ?? 'DESC']];
-
-    const orderDeviceWhere = {};
 
     if (filters.status !== undefined) {
       orderDeviceWhere.status = {
@@ -29,7 +29,13 @@ const PurchaseService = {
 
     if (filters.order !== undefined) {
       const entries = Object.entries(filters.order).map(([key, value]) => {
-        if (key === 'id') return [key, value];
+        if (key === 'id') {
+          // TODO: refactoring;
+          return !Number.isNaN(Number(value)) &&
+            typeof Number(value) === 'number'
+            ? [key, value]
+            : undefined;
+        }
 
         return [
           key,
@@ -41,7 +47,18 @@ const PurchaseService = {
         ];
       });
 
-      where = { ...where, ...Object.fromEntries(entries) };
+      where = {
+        ...where,
+        ...Object.fromEntries(entries.filter((item) => item !== undefined)),
+      };
+    }
+
+    if (filters.deviceName !== undefined) {
+      deviceWhere.name = sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('name')),
+        'LIKE',
+        `%${filters.deviceName.toLowerCase()}%`
+      );
     }
 
     return models.Order.findAndCountAll({
@@ -54,6 +71,7 @@ const PurchaseService = {
         {
           model: models.Device,
           as: 'devices',
+          where: deviceWhere,
           include: [
             {
               model: models.DeviceInfo,

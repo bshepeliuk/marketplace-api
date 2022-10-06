@@ -2,7 +2,14 @@ import PurchaseService from '../services/PurchaseService';
 import getOrderFilterOptionsFromQueries from '../utils/getOrderFilterOptionsFromQueries';
 
 export const getAll = async (req, res) => {
-  const { offset, limit, status, sortDirection, sortField } = req.query;
+  const {
+    offset,
+    limit,
+    status,
+    sortDirection,
+    sortField,
+    deviceName,
+  } = req.query;
   const { userId } = req.session.current;
 
   const order = getOrderFilterOptionsFromQueries(req.query);
@@ -10,6 +17,7 @@ export const getAll = async (req, res) => {
   const filters = {
     order,
     status,
+    deviceName,
   };
 
   const { count, rows } = await PurchaseService.findAllByUserId({

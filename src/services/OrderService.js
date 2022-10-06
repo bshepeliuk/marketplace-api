@@ -74,7 +74,13 @@ const OrderService = {
 
     if (filters.order !== undefined) {
       const entries = Object.entries(filters.order).map(([key, value]) => {
-        if (key === 'id') return [key, value];
+        if (key === 'id') {
+          // TODO: refactoring;
+          return !Number.isNaN(Number(value)) &&
+            typeof Number(value) === 'number'
+            ? [key, value]
+            : undefined;
+        }
 
         return [
           key,
@@ -86,7 +92,7 @@ const OrderService = {
         ];
       });
 
-      where = Object.fromEntries(entries);
+      where = Object.fromEntries(entries.filter((item) => item !== undefined));
     }
 
     // TODO: create OrderRepository
