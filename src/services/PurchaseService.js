@@ -1,5 +1,5 @@
-import sequelize, { Op } from 'sequelize';
-import models from '../database';
+import OrdersRepository from '../repositories/OrderRepository';
+import createOrderWhereClauses from '../utils/createOrderWhereClauses';
 
 const PurchaseService = {
   findAllByUserId({
@@ -10,93 +10,28 @@ const PurchaseService = {
     sortDirection,
     sortField,
   }) {
-    let where = { userId };
-    const orderDeviceWhere = {};
-    const deviceWhere = {};
+    const hasSortField = sortField !== undefined;
 
-    let sorting =
-      sortField === undefined
-        ? [['updatedAt', 'DESC']]
-        : [[sortField, sortDirection ?? 'DESC']];
+    const where = createOrderWhereClauses({
+      userId,
+      status: filters.status,
+      order: filters.order,
+      deviceName: filters.deviceName,
+    });
 
-    if (filters.status !== undefined) {
-      orderDeviceWhere.status = {
-        [Op.or]: Array.isArray(filters.status)
-          ? filters.status
-          : [filters.status],
-      };
-    }
+    const sorting = hasSortField
+      ? [[sortField, sortDirection ?? 'DESC']]
+      : [['updatedAt', 'DESC']];
 
-    if (filters.order !== undefined) {
-      const entries = Object.entries(filters.order).map(([key, value]) => {
-        if (key === 'id') {
-          // TODO: refactoring;
-          return !Number.isNaN(Number(value)) &&
-            typeof Number(value) === 'number'
-            ? [key, value]
-            : undefined;
-        }
-
-        return [
-          key,
-          sequelize.where(
-            sequelize.fn('LOWER', sequelize.col(`Order.${key}`)),
-            'LIKE',
-            `%${value.toLowerCase()}%`
-          ),
-        ];
-      });
-
-      where = {
-        ...where,
-        ...Object.fromEntries(entries.filter((item) => item !== undefined)),
-      };
-    }
-
-    if (filters.deviceName !== undefined) {
-      deviceWhere.name = sequelize.where(
-        sequelize.fn('LOWER', sequelize.col('name')),
-        'LIKE',
-        `%${filters.deviceName.toLowerCase()}%`
-      );
-    }
-
-    return models.Order.findAndCountAll({
+    return OrdersRepository.findAndCountAll({
       limit,
       offset,
-      distinct: true,
-      order: sorting,
-      where,
-      include: [
-        {
-          model: models.Device,
-          as: 'devices',
-          where: deviceWhere,
-          include: [
-            {
-              model: models.DeviceInfo,
-              as: 'info',
-            },
-            {
-              model: models.Rating,
-              as: 'ratings',
-            },
-            {
-              model: models.DeviceImage,
-              as: 'images',
-            },
-          ],
-          through: {
-            model: models.OrderDevice,
-            as: 'orderDevice',
-            where: orderDeviceWhere,
-          },
-        },
-        {
-          model: models.ShippingAddress,
-          as: 'address',
-        },
-      ],
+      sorting: { Order: sorting },
+      where: {
+        Order: where.Order,
+        Device: where.Device,
+        OrderDevice: where.OrderDevice,
+      },
     });
   },
 };
