@@ -6,6 +6,8 @@ const createOrderWhereClauses = ({
   order,
   deviceName,
   deviceIds,
+  year,
+  months,
 }) => {
   let orderWhere = {};
   const orderDeviceWhere = {};
@@ -55,6 +57,30 @@ const createOrderWhereClauses = ({
 
   if (Array.isArray(deviceIds) && deviceIds.length !== 0) {
     deviceWhere.id = deviceIds;
+  }
+
+  if (months !== undefined && months.length > 0) {
+    orderWhere = {
+      ...orderWhere,
+      [Op.or]: months.map((month) => {
+        return sequelize.where(
+          sequelize.fn('date_part', 'month', sequelize.col('Order.createdAt')),
+          month
+        );
+      }),
+    };
+  }
+
+  if (year !== undefined) {
+    orderWhere = {
+      ...orderWhere,
+      [Op.and]: [
+        sequelize.where(
+          sequelize.fn('date_part', 'year', sequelize.col('Order.createdAt')),
+          year
+        ),
+      ],
+    };
   }
 
   return {

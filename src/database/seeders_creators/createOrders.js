@@ -10,7 +10,7 @@ function createOrders({ count, buyers }) {
   for (let i = 1; i < count + 1; i++) {
     const user = getRandomFromList(buyers);
     const date = generateRandomDate({
-      start: new Date(2022, 0, 1),
+      start: new Date(2018, 0, 1),
       end: new Date(),
     });
     const phone = generateRandomInteger({
