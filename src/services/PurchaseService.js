@@ -1,4 +1,5 @@
 import OrdersRepository from '../repositories/OrderRepository';
+import createOption from '../utils/createOption';
 import createOrderWhereClauses from '../utils/createOrderWhereClauses';
 
 const PurchaseService = {
@@ -14,6 +15,8 @@ const PurchaseService = {
 
     const where = createOrderWhereClauses({
       userId,
+      months: filters.months,
+      year: filters.year,
       status: filters.status,
       order: filters.order,
       deviceName: filters.deviceName,
@@ -32,6 +35,15 @@ const PurchaseService = {
         Device: where.Device,
         OrderDevice: where.OrderDevice,
       },
+    });
+  },
+  async getAvailableYearOptions({ userId }) {
+    const where = { Order: { userId } };
+
+    const dates = await OrdersRepository.getAvailableYears(where);
+
+    return dates.map((item) => {
+      return createOption(new Date(item.fullDate).getFullYear());
     });
   },
 };

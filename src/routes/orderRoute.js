@@ -17,11 +17,14 @@ const changeOrderStatusOptions = {
 const getOrderYearsOptions = {
   handler: OrderController.getAvailableYearsOptions,
   preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
 };
 
 const orderRoutes = async (fastify) => {
   fastify.get('/api/orders', getOrdersOptions);
-  fastify.get('/api/orders/years-options', getOrderYearsOptions);
+  fastify.get('/api/orders/year-options', getOrderYearsOptions);
   fastify.patch('/api/order-status', changeOrderStatusOptions);
 };
 

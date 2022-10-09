@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import sequelize, { Op } from 'sequelize';
 import { ORDER_STATUS } from '../constants';
 import models from '../database';
 
@@ -86,6 +86,32 @@ const OrdersRepository = {
   },
   changeStatusByOrderItemId({ id, status }) {
     return models.OrderDevice.update({ status }, { where: { id } });
+  },
+  getAvailableYears(where) {
+    return models.Order.findAll({
+      where: where.Order,
+      attributes: [
+        [
+          sequelize.fn('date_trunc', 'year', sequelize.col('Order.createdAt')),
+          'fullDate',
+        ],
+      ],
+      include: [
+        {
+          model: models.Device,
+          as: 'devices',
+          where: where.Device,
+          attributes: [],
+          through: {
+            model: models.OrderDevice,
+            as: 'orderDevice',
+            attributes: [],
+          },
+        },
+      ],
+      raw: true,
+      group: ['fullDate'],
+    });
   },
 };
 

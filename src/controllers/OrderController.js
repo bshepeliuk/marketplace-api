@@ -16,18 +16,20 @@ export const getAll = async (req, res) => {
     status,
     sortDirection,
     sortField,
-    months,
+    month,
     year,
   } = req.query;
   const { userId } = req.session.current;
 
   const order = getOrderFilterOptionsFromQueries(req.query);
 
+  const months = Array.isArray(month) || month === undefined ? month : [month];
+
   const filters = {
     order,
     status,
-    months,
     year,
+    months,
   };
 
   const { count, rows } = await OrderService.findAll({
@@ -53,7 +55,7 @@ export const changeOrderStatus = async (req, res) => {
 export const getAvailableYearsOptions = async (req, res) => {
   const { userId } = req.session.current;
 
-  const options = await OrderService.getAvailableYearsOptions({ userId });
+  const options = await OrderService.getAvailableYearOptions({ userId });
 
   res.status(200).send({ options });
 };
