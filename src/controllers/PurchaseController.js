@@ -27,7 +27,7 @@ export const getAll = async (req, res) => {
     year,
     months,
   };
-
+  // TODO: refactoring;
   const dates = await models.Order.findAll({
     where: { userId },
     attributes: [

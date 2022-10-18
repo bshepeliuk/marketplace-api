@@ -12,16 +12,8 @@ const OrderService = {
 
     return OrdersRepository.create({ orders, customer });
   },
-  async findAll({
-    userId,
-    limit = 20,
-    offset = 0,
-    filters,
-    sortDirection,
-    sortField,
-  }) {
+  async findAll({ userId, limit, offset, filters, sortDirection, sortField }) {
     const hasSortField = sortField !== undefined;
-
     const devices = await OrdersRepository.findOrdersByUserId({ userId });
     const deviceIds = devices.map((item) => item.id);
 

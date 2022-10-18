@@ -18,7 +18,11 @@ const TypeService = {
       };
     }
 
-    return models.Type.findAll({ where });
+    if (filters.ids !== undefined) {
+      where = { ...where, id: filters.ids };
+    }
+
+    return models.Type.findAll({ where, raw: true });
   },
   destroyById(typeId) {
     return models.Type.destroy({ where: { id: typeId } });
