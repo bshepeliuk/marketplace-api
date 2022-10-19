@@ -12,32 +12,9 @@ export const getStatsByDevices = async (req, res) => {
     months,
   };
 
-  const devices = StatsService.getOrderDeviceAndQuantityRatio({
-    filters,
-    userId,
-  });
-
-  const status = StatsService.getOrderStatusAndQuantityRatio({
-    filters,
-    userId,
-  });
-
-  const categories = StatsService.getDeviceTypeAndPriceWithQuantityRatio({
-    filters,
-    userId,
-  });
-
-  const [devicesResult, statusResult, categoriesResult] = await Promise.all([
-    devices,
-    status,
-    categories,
-  ]);
+  const stats = await StatsService.getStats({ filters, userId });
 
   res.status(200).send({
-    stats: {
-      devices: devicesResult,
-      status: statusResult,
-      categories: categoriesResult,
-    },
+    stats,
   });
 };

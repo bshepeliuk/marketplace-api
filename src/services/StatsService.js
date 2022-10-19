@@ -1,44 +1,31 @@
 import getDeviceCategoryStats from '../utils/getDeviceCategoryStats';
+import getOrderCityStats from '../utils/getOrderCityStats';
+import getOrderCustomerStats from '../utils/getOrderCustomerStats';
 import getOrderDeviceStats from '../utils/getOrderDeviceStats';
+import getOrderMonthDayStats from '../utils/getOrderMonthDayStats';
 import getOrderStatusStats from '../utils/getOrderStatusStats';
 import OrderService from './OrderService';
 import TypeService from './TypeService';
 
 const StatsService = {
-  async getOrderDeviceAndQuantityRatio({ filters, userId }) {
+  async getStats({ filters, userId }) {
     const orders = await OrderService.findAll({
       userId,
       filters,
     });
 
-    const result = getOrderDeviceStats(orders.rows);
+    const devices = getOrderDeviceStats(orders.rows);
+    const statuses = getOrderStatusStats(orders.rows);
+    const customers = getOrderCustomerStats(orders.rows);
+    const cities = getOrderCityStats(orders.rows);
+    const dates = getOrderMonthDayStats(orders.rows);
 
-    return result;
-  },
-
-  async getOrderStatusAndQuantityRatio({ filters, userId }) {
-    const orders = await OrderService.findAll({
-      userId,
-      filters,
-    });
-
-    const result = getOrderStatusStats(orders.rows);
-
-    return result;
-  },
-  async getDeviceTypeAndPriceWithQuantityRatio({ filters, userId }) {
-    const orders = await OrderService.findAll({
-      userId,
-      filters,
-    });
-
+    // TODO:categories refactoring;
     const result = getDeviceCategoryStats(orders.rows);
-
     const types = await TypeService.findAll({
       ids: result.map((item) => item.typeId),
     });
-
-    const stats = types.map((type) => {
+    const categories = types.map((type) => {
       const typeStats = result.find((item) => item.typeId === type.id);
 
       return {
@@ -47,7 +34,14 @@ const StatsService = {
       };
     });
 
-    return stats;
+    return {
+      devices,
+      statuses,
+      categories,
+      customers,
+      cities,
+      dates,
+    };
   },
 };
 
