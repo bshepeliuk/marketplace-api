@@ -1,7 +1,6 @@
-import getDeviceCategoryStats from '../utils/getDeviceCategoryStats';
-import prepareOrderStats from '../utils/prepareOrderStats';
+import prepareOrderStats from '../utils/prepareOrderStats/prepareOrderStats';
+import replaceTypeIdsWithLabel from '../utils/replaceTypeIdsWithLabel';
 import OrderService from './OrderService';
-import TypeService from './TypeService';
 
 const StatsService = {
   async getStats({ filters, userId }) {
@@ -11,19 +10,7 @@ const StatsService = {
     });
 
     const stats = prepareOrderStats(orders.rows);
-    // TODO:categories refactoring;
-    const result = getDeviceCategoryStats(orders.rows);
-    const types = await TypeService.findAll({
-      ids: stats.categories.map((item) => item.typeId),
-    });
-    const categories = types.map((type) => {
-      const typeStats = result.find((item) => item.typeId === type.id);
-
-      return {
-        ...typeStats,
-        name: type.name,
-      };
-    });
+    const categories = await replaceTypeIdsWithLabel(stats.categories);
 
     return {
       categories,
