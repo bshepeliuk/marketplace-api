@@ -23,13 +23,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      preview: {
+        type: Sequelize.BOOLEAN,
+        default: false,
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
     });
   },
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.dropTable('DeviceImages');
   },
 };

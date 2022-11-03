@@ -1,110 +1,59 @@
-import {
-  attachBrandIdAndGetDevices,
-  attachImgUrlAndGetDeviceImgData,
-  attachImgUrlToProperDeviceName,
-  attachTypeIdAndGetDevices,
-  generateBrandsDataByNames,
-  generateDeviceDetails,
-  generateDevicesWithFullInfo,
-  generateRandomRatingByDeviceIds,
-  generateTypesDataByNames,
-  getAllDevicesByTypeId,
-  matchNameToId,
-} from './helpers';
-import {
-  laptops,
-  laptopsCPU,
-  laptopsGraphics,
-  laptopsImages,
-  laptopsMatrixTypes,
-  laptopsRAM,
-  laptopsScreenResolution,
-  laptopsScreenSize,
-  namesOfBrands,
-  namesOfTypes,
-  phones,
-  phonesImages,
-  tablets,
-  tabletsImages,
-} from './data';
+import { namesOfTypes } from './data/types';
+import { namesOfBrands } from './data/brands';
+import { laptops } from './data/laptops';
+import { phones } from './data/phones';
+import { tablets } from './data/tablets';
+import { tvs } from './data/tvs';
+
 import createUsers from './createUsers';
 import createOrders from './createOrders';
 import createOrderDevices from './createOrderDevices';
 import createShippingAddresses from './createShippingAddresses';
+import createTypes from './createTypes';
+import createBrands from './createBrands';
+import createDevices from './createDevices';
+import createDeviceImages from './createDeviceImages';
+import { createDeviceRatings } from './createRatings';
+import { laptopDetails } from './data/laptopsDetails';
+import { createDeviceDetails } from './createDeviceDetails';
+import { tabletDetails } from './data/tabletDetails';
+import { phoneDetails } from './data/phoneDetails';
+import { tvDetails } from './data/tvDetails';
+import { cameras } from './data/cameras';
+import { cameraDetails } from './data/cameraDetails';
+import { USER_ROLES } from './data/roles';
 
-const deviceBrands = generateBrandsDataByNames(namesOfBrands);
-const deviceTypes = generateTypesDataByNames(namesOfTypes);
-
-const brandIdByName = matchNameToId(deviceBrands);
-const typeIdByName = matchNameToId(deviceTypes);
-
-const devicesWithTypeIds = [
-  ...attachTypeIdAndGetDevices({
-    items: laptops,
-    typeId: typeIdByName.laptops,
-  }),
-  ...attachTypeIdAndGetDevices({ items: phones, typeId: typeIdByName.phones }),
-  ...attachTypeIdAndGetDevices({
-    items: tablets,
-    typeId: typeIdByName.tablets,
-  }),
-];
-
-const deviceImagesWithNames = [
-  ...attachImgUrlToProperDeviceName({ items: laptops, images: laptopsImages }),
-  ...attachImgUrlToProperDeviceName({ items: phones, images: phonesImages }),
-  ...attachImgUrlToProperDeviceName({ items: tablets, images: tabletsImages }),
-];
-
-const devicesWithBrandIds = attachBrandIdAndGetDevices({
-  items: devicesWithTypeIds,
-  brands: deviceBrands,
+const types = createTypes(namesOfTypes);
+const brands = createBrands(namesOfBrands);
+const devices = createDevices({
+  types,
+  brands,
+  mockValues: {
+    tablets,
+    phones,
+    cameras,
+    laptops,
+    TVs: tvs,
+  },
 });
-
-const testDevices = Array(60)
-  .fill(undefined)
-  .map((_, idx) => ({
-    name: `Test example № - ${idx}`,
-    typeId: typeIdByName['test-type'],
-    brandId: brandIdByName['TEST-BRAND'],
-  }));
-
-const devices = generateDevicesWithFullInfo([
-  ...devicesWithBrandIds,
-  ...testDevices,
-]);
-
-const deviceImages = attachImgUrlAndGetDeviceImgData(
+const images = createDeviceImages({
   devices,
-  deviceImagesWithNames
-);
-// TODO: separate it
-const laptopIds = getAllDevicesByTypeId({
-  devices,
-  typeId: typeIdByName.laptops,
-}).map((item) => item.id);
-
-const deviceDetails = generateDeviceDetails({
-  deviceIds: laptopIds,
-  typeId: typeIdByName.laptops,
-  details: [
-    ['Microprocessor', laptopsCPU],
-    ['Video graphics', laptopsGraphics],
-    ['Screen resolution', laptopsScreenResolution],
-    ['Screen size', laptopsScreenSize],
-    ['Type of matrix', laptopsMatrixTypes],
-    ['RAM', laptopsRAM],
-  ],
+  mockValues: {
+    tablets,
+    phones,
+    laptops,
+    cameras,
+    TVs: tvs,
+  },
 });
-
-const deviceIds = devices.map((i) => i.id);
-
-const ratings = generateRandomRatingByDeviceIds(deviceIds);
 
 const users = createUsers();
+
+const buyers = users.filter((user) => user.role === USER_ROLES.buyer);
+
 const orders = createOrders({
+  buyers,
   count: 60,
-  buyers: users.filter((user) => user.role === 'BUYER'),
 });
 const shippingAddresses = createShippingAddresses({ orders });
 const orderDevices = createOrderDevices({
@@ -113,15 +62,32 @@ const orderDevices = createOrderDevices({
   count: 2,
 });
 
+const ratings = createDeviceRatings({
+  deviceIds: devices.map((item) => item.id),
+  userIds: users.filter((user) => user.role === 'BUYER').map((item) => item.id),
+});
+
+const details = createDeviceDetails({
+  types,
+  devices,
+  details: {
+    laptops: laptopDetails,
+    tablets: tabletDetails,
+    phones: phoneDetails,
+    cameras: cameraDetails,
+    TVs: tvDetails,
+  },
+});
+
 export {
+  details,
+  ratings,
   users,
   orders,
   orderDevices,
   shippingAddresses,
   devices,
-  ratings,
-  deviceImages,
-  deviceBrands,
-  deviceTypes,
-  deviceDetails,
+  types,
+  brands,
+  images,
 };

@@ -1,15 +1,14 @@
-import { deviceImages } from '../seeders_creators';
+import { images } from '../seeders_creators';
 
 export default {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('DeviceImages', deviceImages, {});
+  up: async (queryInterface) => {
+    await queryInterface.bulkInsert('DeviceImages', images, {});
     await queryInterface.sequelize.query(
-      `ALTER SEQUENCE "DeviceImages_id_seq" RESTART WITH ${deviceImages.length +
-        1}`
+      `ALTER SEQUENCE "DeviceImages_id_seq" RESTART WITH ${images.length + 1}`
     );
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.bulkDelete('DeviceImages', null, {});
   },
 };

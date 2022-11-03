@@ -14,6 +14,7 @@ const DeviceRepository = {
     {
       model: models.DeviceImage,
       as: 'images',
+      order: [['preview', 'DESC']],
     },
   ],
   create({ name, price, brandId, typeId, quantity, userId }) {

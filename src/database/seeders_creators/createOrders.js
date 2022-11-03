@@ -1,8 +1,6 @@
-import {
-  generateRandomDate,
-  generateRandomInteger,
-  getRandomFromList,
-} from './helpers';
+import { generateRandomDate } from './helpers/generateRandomDate';
+import { generateRandomInteger } from './helpers/generateRandomInteger';
+import { getRandomFromList } from './helpers/getRandomFromList';
 
 function createOrders({ count, buyers }) {
   const orders = [];

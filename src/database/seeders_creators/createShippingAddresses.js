@@ -1,6 +1,6 @@
-import { generateRandomInteger, getRandomFromList } from './helpers';
-
-const cities = ['Kyiv', 'Kharkiv', 'Odessa', 'Donetsk', 'Lviv', 'Yalta'];
+import { cities } from './data/cities';
+import { generateRandomInteger } from './helpers/generateRandomInteger';
+import { getRandomFromList } from './helpers/getRandomFromList';
 
 function createShippingAddresses({ orders }) {
   const shippingAddresses = [];

@@ -1,14 +1,14 @@
-import { deviceTypes } from '../seeders_creators';
+import { types } from '../seeders_creators';
 
 export default {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Types', deviceTypes, {});
+  up: async (queryInterface) => {
+    await queryInterface.bulkInsert('Types', types, {});
     await queryInterface.sequelize.query(
-      `ALTER SEQUENCE "Types_id_seq" RESTART WITH ${deviceTypes.length + 1}`
+      `ALTER SEQUENCE "Types_id_seq" RESTART WITH ${types.length + 1}`
     );
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async (queryInterface) => {
     await queryInterface.bulkDelete('Types', null, {});
   },
 };
