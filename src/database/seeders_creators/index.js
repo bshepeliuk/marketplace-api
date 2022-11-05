@@ -23,31 +23,30 @@ import { cameras } from './data/cameras';
 import { cameraDetails } from './data/cameraDetails';
 import { USER_ROLES } from './data/roles';
 
+const users = createUsers();
 const types = createTypes(namesOfTypes);
 const brands = createBrands(namesOfBrands);
 const devices = createDevices({
   types,
   brands,
   mockValues: {
-    tablets,
-    phones,
-    cameras,
     laptops,
+    phones,
+    tablets,
+    cameras,
     TVs: tvs,
   },
 });
 const images = createDeviceImages({
   devices,
   mockValues: {
-    tablets,
-    phones,
     laptops,
+    phones,
+    tablets,
     cameras,
     TVs: tvs,
   },
 });
-
-const users = createUsers();
 
 const buyers = users.filter((user) => user.role === USER_ROLES.buyer);
 
@@ -64,7 +63,7 @@ const orderDevices = createOrderDevices({
 
 const ratings = createDeviceRatings({
   deviceIds: devices.map((item) => item.id),
-  userIds: users.filter((user) => user.role === 'BUYER').map((item) => item.id),
+  userIds: buyers.map((item) => item.id),
 });
 
 const details = createDeviceDetails({
@@ -72,8 +71,8 @@ const details = createDeviceDetails({
   devices,
   details: {
     laptops: laptopDetails,
-    tablets: tabletDetails,
     phones: phoneDetails,
+    tablets: tabletDetails,
     cameras: cameraDetails,
     TVs: tvDetails,
   },
