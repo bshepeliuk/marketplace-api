@@ -14,6 +14,10 @@ const DeviceImage = (sequelize, DataTypes) => {
     {
       url: DataTypes.STRING,
       deviceId: DataTypes.INTEGER,
+      preview: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

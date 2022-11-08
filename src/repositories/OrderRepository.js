@@ -46,9 +46,12 @@ const OrdersRepository = {
   },
 
   findAndCountAll({ where, limit, offset, sorting }) {
+    const hasLimitKey = limit !== undefined;
+    const hasOffsetKey = offset !== undefined;
+
     return models.Order.findAndCountAll({
-      limit,
-      offset,
+      ...(hasLimitKey && { limit }),
+      ...(hasOffsetKey && { offset }),
       order: sorting.Order,
       where: where.Order,
       distinct: true,

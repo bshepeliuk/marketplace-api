@@ -21,6 +21,7 @@ import stripePaymentRoute from './routes/stripePaymentRoute';
 import commentRoutes from './routes/commentsRoute';
 import orderRoutes from './routes/orderRoute';
 import purchaseRoutes from './routes/purchaseRoute';
+import statsRoutes from './routes/statsRoute';
 
 function buildApp(opts = {}) {
   const app = fastify(opts);
@@ -45,6 +46,7 @@ function buildApp(opts = {}) {
   app.register(commentRoutes);
   app.register(orderRoutes);
   app.register(purchaseRoutes);
+  app.register(statsRoutes);
 
   app.setErrorHandler(errorHandler);
 

@@ -1,14 +1,14 @@
-import { deviceBrands } from '../seeders_creators';
+import { brands } from '../seeders_creators';
 
 export default {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Brands', deviceBrands, {});
+  up: async (queryInterface) => {
+    await queryInterface.bulkInsert('Brands', brands, {});
     await queryInterface.sequelize.query(
-      `ALTER SEQUENCE "Brands_id_seq" RESTART WITH ${deviceBrands.length + 1}`
+      `ALTER SEQUENCE "Brands_id_seq" RESTART WITH ${brands.length + 1}`
     );
   },
 
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Brands', null, {});
+  down: async (queryInterface) => {
+    await queryInterface.bulkDelete('Brands', brands, {});
   },
 };

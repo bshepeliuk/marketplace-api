@@ -1,7 +1,4 @@
-const USER_ROLES = {
-  seller: 'SELLER',
-  buyer: 'BUYER',
-};
+import { USER_ROLES } from './data/roles';
 
 const createUsers = () => {
   const password = '1234';

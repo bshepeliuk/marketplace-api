@@ -9,6 +9,8 @@ export const DeviceDetailsSchema = {
         id: { type: 'number' },
         url: { type: 'string' },
         deviceId: { type: 'number' },
+        preview: { type: 'boolean' },
+        createdAt: { type: 'string' },
       },
     },
   },

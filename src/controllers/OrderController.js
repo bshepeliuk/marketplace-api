@@ -11,8 +11,8 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   const {
-    offset,
-    limit,
+    offset = 0,
+    limit = 20,
     status,
     sortDirection,
     sortField,
