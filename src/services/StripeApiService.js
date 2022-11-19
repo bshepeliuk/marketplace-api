@@ -66,4 +66,24 @@ export const StripeApiService = {
       stripeAccount: accountId,
     });
   },
+  getChargesByAccountId(accountId) {
+    return stripe.charges.list({
+      stripeAccount: accountId,
+    });
+  },
+  getPayoutsByAccountId(accountId) {
+    return stripe.payouts.list({
+      stripeAccount: accountId,
+    });
+  },
+  getTransfersByAccountId(accountId) {
+    return stripe.payouts.list({
+      stripeAccount: accountId,
+    });
+  },
+  getEventsByAccountId(accountId) {
+    return stripe.events.list({
+      stripeAccount: accountId,
+    });
+  },
 };

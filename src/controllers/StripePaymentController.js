@@ -69,3 +69,39 @@ export const getSellerBalance = async (req, res) => {
 
   res.status(200).send({ balance });
 };
+
+export const getSellerPayments = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const account = await getStripeAccountByUserId(userId);
+  const charges = await StripeApiService.getChargesByAccountId(account.id);
+
+  res.status(200).send({ charges });
+};
+
+export const getSellerPayouts = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const account = await getStripeAccountByUserId(userId);
+  const payouts = await StripeApiService.getPayoutsByAccountId(account.id);
+
+  res.status(200).send({ payouts });
+};
+
+export const getSellerTransfers = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const account = await getStripeAccountByUserId(userId);
+  const transfers = await StripeApiService.getTransfersByAccountId(account.id);
+
+  res.status(200).send({ transfers });
+};
+
+export const getAccountEvents = async (req, res) => {
+  const { userId } = req.session.current;
+
+  const account = await getStripeAccountByUserId(userId);
+  const events = await StripeApiService.getEventsByAccountId(account.id);
+
+  res.status(200).send({ events });
+};
