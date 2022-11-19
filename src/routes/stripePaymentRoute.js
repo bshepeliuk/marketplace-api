@@ -18,6 +18,38 @@ const stripeBalanceOptions = {
   },
 };
 
+const stripeChargesOptions = {
+  handler: StripePaymentController.getSellerPayments,
+  preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
+};
+
+const stripePayoutsOptions = {
+  handler: StripePaymentController.getSellerPayouts,
+  preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
+};
+
+const stripeTransfersOptions = {
+  handler: StripePaymentController.getSellerTransfers,
+  preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
+};
+
+const stripeAccountEventsOptions = {
+  handler: StripePaymentController.getAccountEvents,
+  preHandler: authGate,
+  config: {
+    roles: ['SELLER'],
+  },
+};
+
 const paymentRoutes = async (fastify) => {
   fastify.post('/api/create-checkout-session', checkoutSessionOptions);
   fastify.post('/api/onboard-user', {
@@ -44,6 +76,10 @@ const paymentRoutes = async (fastify) => {
 
   fastify.post('/api/webhook', stripeWebHookOptions);
   fastify.get('/api/balance', stripeBalanceOptions);
+  fastify.get('/api/charges', stripeChargesOptions);
+  fastify.get('/api/payouts', stripePayoutsOptions);
+  fastify.get('/api/transfers', stripeTransfersOptions);
+  fastify.get('/api/account-events', stripeAccountEventsOptions);
 };
 
 export default paymentRoutes;
