@@ -66,18 +66,55 @@ export const StripeApiService = {
       stripeAccount: accountId,
     });
   },
-  getChargesByAccountId(accountId) {
-    return stripe.charges.list({
+
+  getChargesByAccountId({ accountId, startChunkId, endChunkId, limit = 10 }) {
+    const options = {
+      limit,
+    };
+
+    if (endChunkId) {
+      options.starting_after = endChunkId;
+    }
+
+    if (startChunkId) {
+      options.ending_before = startChunkId;
+    }
+
+    return stripe.charges.list(options, {
       stripeAccount: accountId,
     });
   },
-  getPayoutsByAccountId(accountId) {
-    return stripe.payouts.list({
+  getPayoutsByAccountId({ accountId, startChunkId, endChunkId, limit = 10 }) {
+    const options = {
+      limit,
+    };
+
+    if (endChunkId) {
+      options.starting_after = endChunkId;
+    }
+
+    if (startChunkId) {
+      options.ending_before = startChunkId;
+    }
+
+    return stripe.payouts.list(options, {
       stripeAccount: accountId,
     });
   },
-  getTransfersByAccountId(accountId) {
-    return stripe.payouts.list({
+  getTransfersByAccountId({ accountId, startChunkId, endChunkId, limit = 10 }) {
+    const options = {
+      limit,
+    };
+
+    if (endChunkId) {
+      options.starting_after = endChunkId;
+    }
+
+    if (startChunkId) {
+      options.ending_before = startChunkId;
+    }
+
+    return stripe.payouts.list(options, {
       stripeAccount: accountId,
     });
   },

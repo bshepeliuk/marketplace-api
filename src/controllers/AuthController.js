@@ -6,7 +6,7 @@ import { ApiError, BadRequestApiError } from '../utils/ApiErrors';
 import attachUserPropsToSession from '../utils/attachUserPropsToSession';
 import { isItProductionMode } from '../utils/checkEnvMode';
 import destroyAuthSession from '../utils/destroyAuthSession';
-import getStripeAccountByUserId from '../utils/getStripeAccountInfo';
+// import getStripeAccountByUserId from '../utils/getStripeAccountInfo';
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -25,9 +25,9 @@ export const login = async (req, res) => {
 
   attachUserPropsToSession(user, req.session);
 
-  const stripeAccount = await getStripeAccountByUserId(user.id);
+  // const stripeAccount = await getStripeAccountByUserId(user.id);
 
-  res.status(200).send({ user, stripeAccount });
+  res.status(200).send({ user, stripeAccount: null });
 };
 
 export const register = async (req, res) => {

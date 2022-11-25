@@ -19,7 +19,7 @@ const stripeBalanceOptions = {
 };
 
 const stripeChargesOptions = {
-  handler: StripePaymentController.getSellerPayments,
+  handler: StripePaymentController.getSellerCharges,
   preHandler: authGate,
   config: {
     roles: ['SELLER'],

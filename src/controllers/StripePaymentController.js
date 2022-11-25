@@ -70,29 +70,47 @@ export const getSellerBalance = async (req, res) => {
   res.status(200).send({ balance });
 };
 
-export const getSellerPayments = async (req, res) => {
+export const getSellerCharges = async (req, res) => {
+  const { limit, startChunkId, endChunkId } = req.query;
   const { userId } = req.session.current;
 
   const account = await getStripeAccountByUserId(userId);
-  const charges = await StripeApiService.getChargesByAccountId(account.id);
+  const charges = await StripeApiService.getChargesByAccountId({
+    limit,
+    startChunkId,
+    endChunkId,
+    accountId: account.id,
+  });
 
   res.status(200).send({ charges });
 };
 
 export const getSellerPayouts = async (req, res) => {
+  const { limit, startChunkId, endChunkId } = req.query;
   const { userId } = req.session.current;
 
   const account = await getStripeAccountByUserId(userId);
-  const payouts = await StripeApiService.getPayoutsByAccountId(account.id);
+  const payouts = await StripeApiService.getPayoutsByAccountId({
+    limit,
+    startChunkId,
+    endChunkId,
+    accountId: account.id,
+  });
 
   res.status(200).send({ payouts });
 };
 
 export const getSellerTransfers = async (req, res) => {
+  const { limit, startChunkId, endChunkId } = req.query;
   const { userId } = req.session.current;
 
   const account = await getStripeAccountByUserId(userId);
-  const transfers = await StripeApiService.getTransfersByAccountId(account.id);
+  const transfers = await StripeApiService.getTransfersByAccountId({
+    limit,
+    startChunkId,
+    endChunkId,
+    accountId: account.id,
+  });
 
   res.status(200).send({ transfers });
 };
