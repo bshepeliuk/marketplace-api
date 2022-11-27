@@ -67,18 +67,17 @@ export const StripeApiService = {
     });
   },
 
-  getChargesByAccountId({ accountId, startChunkId, endChunkId, limit = 10 }) {
+  getChargesByAccountId({
+    accountId,
+    startingAfter,
+    endingBefore,
+    limit = 10,
+  }) {
     const options = {
       limit,
+      ...(startingAfter && { starting_after: startingAfter }),
+      ...(endingBefore && { ending_before: endingBefore }),
     };
-
-    if (endChunkId) {
-      options.starting_after = endChunkId;
-    }
-
-    if (startChunkId) {
-      options.ending_before = startChunkId;
-    }
 
     return stripe.charges.list(options, {
       stripeAccount: accountId,

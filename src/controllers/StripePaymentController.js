@@ -71,14 +71,14 @@ export const getSellerBalance = async (req, res) => {
 };
 
 export const getSellerCharges = async (req, res) => {
-  const { limit, startChunkId, endChunkId } = req.query;
+  const { limit, startingAfter, endingBefore } = req.query;
   const { userId } = req.session.current;
 
   const account = await getStripeAccountByUserId(userId);
   const charges = await StripeApiService.getChargesByAccountId({
     limit,
-    startChunkId,
-    endChunkId,
+    startingAfter,
+    endingBefore,
     accountId: account.id,
   });
 
