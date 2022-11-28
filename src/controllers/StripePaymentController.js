@@ -86,14 +86,14 @@ export const getSellerCharges = async (req, res) => {
 };
 
 export const getSellerPayouts = async (req, res) => {
-  const { limit, startChunkId, endChunkId } = req.query;
+  const { limit, startingAfter, endingBefore } = req.query;
   const { userId } = req.session.current;
 
   const account = await getStripeAccountByUserId(userId);
   const payouts = await StripeApiService.getPayoutsByAccountId({
     limit,
-    startChunkId,
-    endChunkId,
+    startingAfter,
+    endingBefore,
     accountId: account.id,
   });
 
@@ -101,14 +101,14 @@ export const getSellerPayouts = async (req, res) => {
 };
 
 export const getSellerTransfers = async (req, res) => {
-  const { limit, startChunkId, endChunkId } = req.query;
+  const { limit, startingAfter, endingBefore } = req.query;
   const { userId } = req.session.current;
 
   const account = await getStripeAccountByUserId(userId);
   const transfers = await StripeApiService.getTransfersByAccountId({
     limit,
-    startChunkId,
-    endChunkId,
+    startingAfter,
+    endingBefore,
     accountId: account.id,
   });
 
