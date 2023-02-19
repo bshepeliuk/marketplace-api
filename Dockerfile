@@ -35,4 +35,6 @@ COPY .sequelizerc_docker .sequelizerc
 
 COPY ./scripts/entrypoint.sh ./entrypoint.sh
 
+EXPOSE 3000
+
 ENTRYPOINT ["sh", "./entrypoint.sh"]

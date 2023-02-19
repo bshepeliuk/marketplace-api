@@ -22,7 +22,14 @@ const sequelizeInstance = {
   development: () => new Sequelize(DATABASE_CONFIG.development),
   test: () => new Sequelize(DATABASE_CONFIG.test),
   production() {
-    return new Sequelize(process.env.DATABASE_URL, sequelizeProductionOptions);
+    return new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      dialectOptions: {
+        ssl: {
+          require: false,
+        },
+      },
+    });
   },
 };
 

@@ -55,31 +55,6 @@ commands:
           name: Run tests
           working_directory: ~/app
           command: npm test
-  run_setup_heroku:
-    description: Installing Heroku CLI, Authentication to Heroku and Heroku Docker Registry
-    steps:
-      - run:
-          working_directory: ~/app
-          name: 'Install Heroku CLI'
-          command: bash ./scripts/install-heroku.sh
-      - run:
-          working_directory: ~/app
-          name: 'Authentication to Heroku'
-          command: bash ./scripts/setup-heroku.sh
-      - run:
-          working_directory: ~/app
-          name: Login into Heroku Docker Repository
-          command: |
-            docker login --username=$HEROKU_EMAIL --password=$HEROKU_AUTH_TOKEN registry.heroku.com
-  run_deploy_to_heroku:
-    description: Deploy app to Heroku
-    steps:
-      - run:
-          name: Build and push Docker image to Heroku
-          working_directory: ~/app
-          command: |
-            heroku container:push web -a $HEROKU_APP_NAME
-            heroku container:release web -a $HEROKU_APP_NAME
   run_deploy_to_railway:
     description: Install Railway CLI and deploy app.
     steps:
@@ -110,8 +85,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run_setup_heroku
-      - run_deploy_to_heroku
       - run_deploy_to_railway
 
 workflows:
@@ -120,9 +93,9 @@ workflows:
     jobs:
       - build
       - test
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: main # Only deploy when the commit is on the Main branch
+      # - deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: main # Only deploy when the commit is on the Main branch
